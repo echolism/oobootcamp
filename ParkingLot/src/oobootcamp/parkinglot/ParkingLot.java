@@ -28,7 +28,7 @@ public class ParkingLot {
 
     private Car search(Car car) {
         for (Car parkedCar : parkedCars) {
-            if (parkedCar.equals(car)) {
+            if (car.getLicense().equals(parkedCar.getLicense())) {
                 return parkedCar;
             }
         }
@@ -47,5 +47,13 @@ public class ParkingLot {
 
     public int getNumberOfAvailableSlots() {
         return capacity - parkedCars.size();
+    }
+
+    public boolean isFull() {
+        return getNumberOfAvailableSlots() == 0;
+    }
+
+    public String getName() {
+        return name;
     }
 }

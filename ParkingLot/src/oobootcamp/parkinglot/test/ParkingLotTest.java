@@ -11,7 +11,7 @@ public class ParkingLotTest {
     /**
      * Given I have an empty parking lot and a car
      * When I park the car to the parking lot
-     * Then I will be able to park the car and get receipt
+     * Then I will be able to park the car
      */
     @Test
     public void testGivenEmptyParkingLotAndCarWhenParkCarThenCanParkCar() {
@@ -121,8 +121,8 @@ public class ParkingLotTest {
     public void testGivenParkingLotAndParkedCarWhenParkCarThenFailedToParkCar() {
         ParkingLot parkingLot = new ParkingLot("1", 2);
         Car car = new Car("A");
-        parkingLot.park(car);
 
+        parkingLot.park(car);
         Receipt receipt = parkingLot.park(car);
 
         assertTrue(car.isParked());

@@ -12,4 +12,8 @@ public class Receipt {
     public String getCarLicense() {
         return carLicense;
     }
+
+    public String getParkingLotName() {
+        return parkingLotName;
+    }
 }
