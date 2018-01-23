@@ -2,6 +2,7 @@ package oobootcamp.parkinglot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class ParkingBoy {
 
@@ -18,12 +19,9 @@ public class ParkingBoy {
     }
 
     public Receipt park(Car car) {
-        for (ParkingLot parkingLot : parkingLots) {
-            if (!parkingLot.isFull()) {
-                return parkingLot.park(car);
-            }
-        }
-        return null;
+        Optional<ParkingLot> firstEmptyParkingLot = parkingLots.stream()
+                .filter(parkingLot -> !parkingLot.isFull()).findFirst();
+        return firstEmptyParkingLot.isPresent() ? firstEmptyParkingLot.get().park(car) : null;
     }
 
     public Car pick(Car car) {

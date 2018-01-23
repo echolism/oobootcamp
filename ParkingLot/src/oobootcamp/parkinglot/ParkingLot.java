@@ -27,12 +27,9 @@ public class ParkingLot {
     }
 
     private Car search(Car car) {
-        for (Car parkedCar : parkedCars) {
-            if (car.getLicense().equals(parkedCar.getLicense())) {
-                return parkedCar;
-            }
-        }
-        return null;
+        return parkedCars.stream()
+                .filter(parkedCar -> parkedCar.getLicense().equals(car.getLicense()))
+                .findFirst().orElse(null);
     }
 
     public Car pick(Car car) {
@@ -51,9 +48,5 @@ public class ParkingLot {
 
     public boolean isFull() {
         return getNumberOfAvailableSlots() == 0;
-    }
-
-    public String getName() {
-        return name;
     }
 }
