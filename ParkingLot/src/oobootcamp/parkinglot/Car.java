@@ -1,14 +1,19 @@
 package oobootcamp.parkinglot;
 
 public class Car {
+    private final String license;
+    private boolean isParked;
 
-    private String name;
-
-    public Car(String name) {
-        this.name = name;
+    public Car(String license) {
+        this.license = license;
+        this.isParked = false;
     }
 
-    public String getName() {
-        return name;
+    public void setParked(boolean isParked) {
+        this.isParked = isParked;
+    }
+
+    public boolean isParked() {
+        return isParked;
     }
 }
