@@ -16,4 +16,8 @@ public class Car {
     public boolean isParked() {
         return isParked;
     }
+
+    public String getLicense() {
+        return license;
+    }
 }
