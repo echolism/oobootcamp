@@ -30,7 +30,6 @@ hs_err_pid*
 *.doc
 *.docx
 *.exe
-*.iml
 *.ipr
 *.iws
 *.jar
@@ -39,7 +38,8 @@ hs_err_pid*
 *.orig
 *~
 .classpath
-*.idea
 .metadata
 .project
 .settings/
+
+*/.idea
