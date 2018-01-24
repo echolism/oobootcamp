@@ -22,11 +22,10 @@ public class ParkingLot {
             return null;
         }
         parkedCars.add(car);
-        car.setParked(true);
         return new Receipt(name, car.getLicense());
     }
 
-    private Car findByLicense(String carLicense) {
+    public Car findByLicense(String carLicense) {
         return parkedCars.stream()
                 .filter(parkedCar -> carLicense.equals(parkedCar.getLicense()))
                 .findFirst().orElse(null);
@@ -37,7 +36,6 @@ public class ParkingLot {
         if (parkedCar == null) {
             return null;
         }
-        parkedCar.setParked(false);
         parkedCars.remove(parkedCar);
         return parkedCar;
     }
@@ -48,5 +46,9 @@ public class ParkingLot {
 
     public boolean isFull() {
         return getNumberOfAvailableSlots() == 0;
+    }
+
+    public String getName() {
+        return name;
     }
 }

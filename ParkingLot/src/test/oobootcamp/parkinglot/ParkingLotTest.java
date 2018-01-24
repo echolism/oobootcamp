@@ -20,7 +20,6 @@ public class ParkingLotTest {
 
         Receipt receipt = parkingLot.park(car);
 
-        assertTrue(car.isParked());
         assertEquals("A", receipt.getCarLicense());
     }
 
@@ -38,7 +37,6 @@ public class ParkingLotTest {
 
         Receipt receipt = parkingLot.park(carB);
 
-        assertFalse(carB.isParked());
         assertNull(receipt);
     }
 
@@ -56,7 +54,6 @@ public class ParkingLotTest {
         Car pickedCar = parkingLot.pick(receipt);
 
         assertSame(car, pickedCar);
-        assertFalse(pickedCar.isParked());
         assertEquals(1, parkingLot.getNumberOfAvailableSlots());
     }
 
@@ -91,7 +88,6 @@ public class ParkingLotTest {
         Car pickedCar = parkingLot.pick(receiptB);
 
         assertSame(carB, pickedCar);
-        assertFalse(pickedCar.isParked());
         assertEquals(1, parkingLot.getNumberOfAvailableSlots());
     }
 
@@ -125,7 +121,6 @@ public class ParkingLotTest {
         parkingLot.park(car);
         Receipt receipt = parkingLot.park(car);
 
-        assertTrue(car.isParked());
         assertNull(receipt);
     }
 }

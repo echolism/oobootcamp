@@ -6,11 +6,9 @@ import java.util.Optional;
 
 public class ParkingBoy {
 
-    private final String name;
     private final List<ParkingLot> parkingLots;
 
-    public ParkingBoy(String name) {
-        this.name = name;
+    public ParkingBoy() {
         this.parkingLots = new ArrayList<>();
     }
 
@@ -18,19 +16,36 @@ public class ParkingBoy {
         parkingLots.add(parkingLot);
     }
 
+    public List<ParkingLot> getParkingLots() {
+        return parkingLots;
+    }
+
     public Receipt park(Car car) {
-        Optional<ParkingLot> firstEmptyParkingLot = parkingLots.stream()
-                .filter(parkingLot -> !parkingLot.isFull()).findFirst();
-        return firstEmptyParkingLot.isPresent() ? firstEmptyParkingLot.get().park(car) : null;
+        Optional<ParkingLot> availableEmptyParkingLot = findTargetParkingLot();
+        return availableEmptyParkingLot.isPresent() ? availableEmptyParkingLot.get().park(car) : null;
+    }
+
+    public Optional<ParkingLot> findTargetParkingLot() {
+        return findFirstEmptyParkingLot();
+    }
+
+
+    private Optional<ParkingLot> findFirstEmptyParkingLot() {
+        return parkingLots.stream()
+                    .filter(parkingLot -> !parkingLot.isFull()).findFirst();
+    }
+
+    private ParkingLot findParkingLotByName(String parkingLotName) {
+        Optional<ParkingLot> targetParkingLot = parkingLots.stream()
+                .filter(parkingLot -> parkingLotName.equals(parkingLot.getName())).findFirst();
+        return targetParkingLot.isPresent() ? targetParkingLot.get() : null;
     }
 
     public Car pick(Receipt receipt) {
-        for (ParkingLot parkingLot : parkingLots) {
-            Car pickedCar = parkingLot.pick(receipt);
-            if (pickedCar != null) {
-                return pickedCar;
-            }
+        ParkingLot parkinglLot = findParkingLotByName(receipt.getParkingLotName());
+        if (parkinglLot == null) {
+            return null;
         }
-        return null;
+        return parkinglLot.pick(receipt);
     }
 }

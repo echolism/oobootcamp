@@ -16,13 +16,12 @@ public class ParkingBoyTest {
      */
     @Test
     public void testGivenParkingBoyWithEmptyParkingLotAndCarWhenParkCarThenCanParkCar() {
-        ParkingBoy parkingBoy = new ParkingBoy("Boy");
+        ParkingBoy parkingBoy = new ParkingBoy();
         parkingBoy.manage(new ParkingLot("1", 1));
         Car car = new Car("A");
 
         Receipt receipt = parkingBoy.park(car);
 
-        assertTrue(car.isParked());
         assertEquals("A", receipt.getCarLicense());
     }
 
@@ -33,7 +32,7 @@ public class ParkingBoyTest {
      */
     @Test
     public void testGivenParkingBoyWithFullParkingLotAndCarWhenParkCarThenFailedToParkCar() {
-        ParkingBoy parkingBoy = new ParkingBoy("Boy");
+        ParkingBoy parkingBoy = new ParkingBoy();
         parkingBoy.manage(new ParkingLot("1", 1));
         Car carA = new Car("A");
         Car carB = new Car("B");
@@ -41,7 +40,6 @@ public class ParkingBoyTest {
 
         Receipt receipt = parkingBoy.park(carB);
 
-        assertFalse(carB.isParked());
         assertNull(receipt);
     }
 
@@ -52,14 +50,13 @@ public class ParkingBoyTest {
      */
     @Test
     public void testGivenParkingBoyWith2EmptyParkingLotWhenParkCarThenCanParkCarTo1stParkingLot() {
-        ParkingBoy parkingBoy = new ParkingBoy("Boy");
+        ParkingBoy parkingBoy = new ParkingBoy();
         parkingBoy.manage(new ParkingLot("1", 1));
         parkingBoy.manage(new ParkingLot("2", 1));
         Car car = new Car("A");
 
         Receipt receipt = parkingBoy.park(car);
 
-        assertTrue(car.isParked());
         assertEquals("A", receipt.getCarLicense());
         assertEquals("1", receipt.getParkingLotName());
     }
@@ -71,7 +68,7 @@ public class ParkingBoyTest {
      */
     @Test
     public void testGivenParkingBoyWith1FullParkingLotAnd1EmptyParkingLotAndCarWhenParkCarThenCanParkCarToEmptyParkingLot() {
-        ParkingBoy parkingBoy = new ParkingBoy("Boy");
+        ParkingBoy parkingBoy = new ParkingBoy();
         parkingBoy.manage(new ParkingLot("1", 1));
         parkingBoy.manage(new ParkingLot("2", 1));
         Car carA = new Car("A");
@@ -80,7 +77,6 @@ public class ParkingBoyTest {
 
         Receipt receipt = parkingBoy.park(carB);
 
-        assertTrue(carB.isParked());
         assertEquals("B", receipt.getCarLicense());
         assertEquals("2", receipt.getParkingLotName());
     }
@@ -92,7 +88,7 @@ public class ParkingBoyTest {
      */
     @Test
     public void testGivenParkingBoyWith2FullParkingLotAndCarWhenParkCarThenFailedToParkCar() {
-        ParkingBoy parkingBoy = new ParkingBoy("Boy");
+        ParkingBoy parkingBoy = new ParkingBoy();
         parkingBoy.manage(new ParkingLot("1", 1));
         parkingBoy.manage(new ParkingLot("2", 1));
         Car carA = new Car("A");
@@ -103,7 +99,6 @@ public class ParkingBoyTest {
 
         Receipt receipt = parkingBoy.park(carC);
 
-        assertFalse(carC.isParked());
         assertNull(receipt);
     }
 
@@ -114,7 +109,7 @@ public class ParkingBoyTest {
      */
     @Test
     public void testGivenParkingBoyAndParkedCarWhenPickCarThenCanPickCar() {
-        ParkingBoy parkingBoy = new ParkingBoy("Boy");
+        ParkingBoy parkingBoy = new ParkingBoy();
         parkingBoy.manage(new ParkingLot("1", 1));
         Car car = new Car("A");
         Receipt receipt = parkingBoy.park(car);
@@ -122,7 +117,6 @@ public class ParkingBoyTest {
         Car pickedCar = parkingBoy.pick(receipt);
 
         assertSame(car, pickedCar);
-        assertFalse(pickedCar.isParked());
     }
 
     /**
@@ -132,7 +126,7 @@ public class ParkingBoyTest {
      */
     @Test
     public void testGivenParkingBoyAndCarWhenPickCarThenFailedToPickCar() {
-        ParkingBoy parkingBoy = new ParkingBoy("Boy");
+        ParkingBoy parkingBoy = new ParkingBoy();
         parkingBoy.manage(new ParkingLot("1", 1));
         Car car = new Car("A");
         Receipt receipt = parkingBoy.park(car);
@@ -150,7 +144,7 @@ public class ParkingBoyTest {
      */
     @Test
     public void testGivenParkingBoyAndFullParkingLotAnd1EmptyParkingLotAndCarWhenPickCarFromParkingLot1ThenCanParkCarToParkingLot1() {
-        ParkingBoy parkingBoy = new ParkingBoy("Boy");
+        ParkingBoy parkingBoy = new ParkingBoy();
         parkingBoy.manage(new ParkingLot("1", 1));
         parkingBoy.manage(new ParkingLot("2", 1));
         Car carA = new Car("A");
@@ -160,7 +154,6 @@ public class ParkingBoyTest {
         parkingBoy.pick(receiptA);
         Receipt receiptB = parkingBoy.park(carB);
 
-        assertTrue(carB.isParked());
         assertEquals("B", receiptB.getCarLicense());
         assertEquals("1", receiptB.getParkingLotName());
     }
