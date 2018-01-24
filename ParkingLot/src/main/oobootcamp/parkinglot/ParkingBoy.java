@@ -23,7 +23,7 @@ public class ParkingBoy {
     }
 
     public Receipt park(Car car) throws ParkingLotException {
-        return findTargetParkingLot().orElseThrow(() -> new ParkingLotException("No available space")).park(car);
+        return findTargetParkingLot().orElseThrow(() -> new ParkingLotException(ParkingLotException.Message.NO_AVAILABLE_SPACE.toString())).park(car);
     }
 
     public Optional<ParkingLot> findTargetParkingLot() {
@@ -32,7 +32,7 @@ public class ParkingBoy {
 
     private Optional<ParkingLot> findFirstEmptyParkingLot() {
         return parkingLots.stream()
-                    .filter(parkingLot -> !parkingLot.isFull()).findFirst();
+                .filter(parkingLot -> !parkingLot.isFull()).findFirst();
     }
 
     private ParkingLot findParkingLotByName(String parkingLotName) {
@@ -44,7 +44,7 @@ public class ParkingBoy {
     public Car pick(Receipt receipt) throws ParkingLotException {
         ParkingLot parkingLot = findParkingLotByName(receipt.getParkingLotName());
         if (parkingLot == null) {
-            throw new ParkingLotException("Parking lot not found");
+            throw new ParkingLotException(ParkingLotException.Message.PARKING_LOT_NOT_FOUND.toString());
         }
         return parkingLot.pick(receipt);
     }

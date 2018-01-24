@@ -18,10 +18,10 @@ public class ParkingLot {
 
     public Receipt park(Car car) throws ParkingLotException {
         if (parkedCars.size() >= capacity) {
-            throw new ParkingLotException("No available space");
+            throw new ParkingLotException(ParkingLotException.Message.NO_AVAILABLE_SPACE.toString());
         }
         if (findByLicense(car.getLicense()) != null) {
-            throw new ParkingLotException("Car is already in parking lot");
+            throw new ParkingLotException(ParkingLotException.Message.CAR_IN_PARKING_LOT.toString());
         }
         parkedCars.add(car);
         return new Receipt(name, car.getLicense());
@@ -36,7 +36,7 @@ public class ParkingLot {
     public Car pick(Receipt receipt) throws ParkingLotException {
         Car parkedCar = findByLicense(receipt.getCarLicense());
         if (parkedCar == null) {
-            throw new ParkingLotException("Car is not in parking lot");
+            throw new ParkingLotException(ParkingLotException.Message.CAR_NOT_FOUND.toString());
         }
         parkedCars.remove(parkedCar);
         return parkedCar;

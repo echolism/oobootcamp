@@ -69,7 +69,7 @@ public class ParkingLotTest {
     @Test
     public void testGivenParkingLotAndCarWhenPickCarThenFailedToPickCar() throws ParkingLotException {
         thrown.expect(ParkingLotException.class);
-        thrown.expectMessage("Car is not in parking lot");
+        thrown.expectMessage(ParkingLotException.Message.CAR_NOT_FOUND.toString());
 
         ParkingLot parkingLot = new ParkingLot("1", 1);
         Receipt receipt = new Receipt("1", "A");
@@ -104,7 +104,7 @@ public class ParkingLotTest {
     @Test
     public void testGivenParkingLotAndParkedCarWhenPickCarThenFailedToPickCar() throws ParkingLotException {
         thrown.expect(ParkingLotException.class);
-        thrown.expectMessage("Car is not in parking lot");
+        thrown.expectMessage(ParkingLotException.Message.CAR_NOT_FOUND.toString());
 
         ParkingLot parkingLot = new ParkingLot("1", 1);
         Car car = new Car("A");
@@ -122,7 +122,7 @@ public class ParkingLotTest {
     @Test
     public void testGivenParkingLotAndParkedCarWhenParkCarThenFailedToParkCar() throws ParkingLotException {
         thrown.expect(ParkingLotException.class);
-        thrown.expectMessage("Car is already in parking lot");
+        thrown.expectMessage(ParkingLotException.Message.CAR_IN_PARKING_LOT.toString());
 
         ParkingLot parkingLot = new ParkingLot("1", 2);
         Car car = new Car("A");

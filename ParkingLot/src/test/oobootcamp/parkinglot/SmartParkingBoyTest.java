@@ -37,7 +37,7 @@ public class SmartParkingBoyTest { // Composition over inheritance -> strategy d
     @Test
     public void testGivenSmartParkingBoyWithFullParkingLotAndCarWhenParkCarThenFailedToParkCar() throws ParkingLotException {
         thrown.expect(ParkingLotException.class);
-        thrown.expectMessage("No available space");
+        thrown.expectMessage(ParkingLotException.Message.NO_AVAILABLE_SPACE.toString());
 
         SmartParkingBoy smartParkingBoy = new SmartParkingBoy();
         smartParkingBoy.manage(new ParkingLot("1", 1));
@@ -73,7 +73,7 @@ public class SmartParkingBoyTest { // Composition over inheritance -> strategy d
     @Test
     public void testGivenSmartParkingBoyAndCarWhenPickCarThenFailedToPickCar() throws ParkingLotException {
         thrown.expect(ParkingLotException.class);
-        thrown.expectMessage("Car is not in parking lot");
+        thrown.expectMessage(ParkingLotException.Message.CAR_NOT_FOUND.toString());
 
         SmartParkingBoy smartParkingBoy = new SmartParkingBoy();
         smartParkingBoy.manage(new ParkingLot("1", 1));
@@ -92,8 +92,8 @@ public class SmartParkingBoyTest { // Composition over inheritance -> strategy d
     @Test
     public void testGivenSmartParkingBoyWith2SameAvailableSlotsParkingLotAndCarWhenParkCarThenCanParkTo1stParkingLot() throws ParkingLotException {
         SmartParkingBoy smartParkingBoy = new SmartParkingBoy();
-        smartParkingBoy.manage(new ParkingLot("1",1));
-        smartParkingBoy.manage(new ParkingLot("2",1));
+        smartParkingBoy.manage(new ParkingLot("1", 1));
+        smartParkingBoy.manage(new ParkingLot("2", 1));
         Car car = new Car("A");
 
         Receipt receipt = smartParkingBoy.park(car);
@@ -109,8 +109,8 @@ public class SmartParkingBoyTest { // Composition over inheritance -> strategy d
     @Test
     public void testGivenSmartParkingBoyWith2SlotsParkingLotWith1stHasMoreAvailableSlotsAndCarWhenParkCarThenCanParkTo1stParkingLot() throws ParkingLotException {
         SmartParkingBoy smartParkingBoy = new SmartParkingBoy();
-        smartParkingBoy.manage(new ParkingLot("1",200));
-        smartParkingBoy.manage(new ParkingLot("2",1));
+        smartParkingBoy.manage(new ParkingLot("1", 200));
+        smartParkingBoy.manage(new ParkingLot("2", 1));
         Car car = new Car("A");
         Receipt receipt = smartParkingBoy.park(car);
 
@@ -125,8 +125,8 @@ public class SmartParkingBoyTest { // Composition over inheritance -> strategy d
     @Test
     public void testGivenSmartParkingBoyWith2SlotsParkingLotWith2ndHasMoreAvailableSlotsAndCarWhenParkCarThenCanParkTo1stParkingLot() throws ParkingLotException {
         SmartParkingBoy smartParkingBoy = new SmartParkingBoy();
-        smartParkingBoy.manage(new ParkingLot("1",1));
-        smartParkingBoy.manage(new ParkingLot("2",200));
+        smartParkingBoy.manage(new ParkingLot("1", 1));
+        smartParkingBoy.manage(new ParkingLot("2", 200));
         Car car = new Car("A");
         Receipt receipt = smartParkingBoy.park(car);
 
@@ -141,9 +141,9 @@ public class SmartParkingBoyTest { // Composition over inheritance -> strategy d
     @Test
     public void testGivenSmartParkingBoyWith3SlotsParkingLotWith2ndHasMoreAvailableSlotsAndCarWhenParkCarThenCanParkTo1stParkingLot() throws ParkingLotException {
         SmartParkingBoy smartParkingBoy = new SmartParkingBoy();
-        smartParkingBoy.manage(new ParkingLot("1",1));
-        smartParkingBoy.manage(new ParkingLot("2",20));
-        smartParkingBoy.manage(new ParkingLot("3",1));
+        smartParkingBoy.manage(new ParkingLot("1", 1));
+        smartParkingBoy.manage(new ParkingLot("2", 20));
+        smartParkingBoy.manage(new ParkingLot("3", 1));
         Car car = new Car("A");
         Receipt receipt = smartParkingBoy.park(car);
 
@@ -158,9 +158,9 @@ public class SmartParkingBoyTest { // Composition over inheritance -> strategy d
     @Test
     public void testGivenSmartParkingBoyWith3SlotsParkingLotWith3rdHasMoreAvailableSlotsAndCarWhenParkCarThenCanParkTo1stParkingLot() throws ParkingLotException {
         SmartParkingBoy smartParkingBoy = new SmartParkingBoy();
-        smartParkingBoy.manage(new ParkingLot("1",1));
-        smartParkingBoy.manage(new ParkingLot("2",1));
-        smartParkingBoy.manage(new ParkingLot("3",20));
+        smartParkingBoy.manage(new ParkingLot("1", 1));
+        smartParkingBoy.manage(new ParkingLot("2", 1));
+        smartParkingBoy.manage(new ParkingLot("3", 20));
         Car car = new Car("A");
         Receipt receipt = smartParkingBoy.park(car);
 
