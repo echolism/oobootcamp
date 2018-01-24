@@ -23,7 +23,9 @@ public class ParkingBoy {
     }
 
     public Receipt park(Car car) throws ParkingLotException {
-        return findTargetParkingLot().orElseThrow(() -> new ParkingLotException(ParkingLotException.Message.NO_AVAILABLE_SPACE.toString())).park(car);
+        return findTargetParkingLot()
+                .orElseThrow(() -> new ParkingLotException(ParkingLotException.Message.NO_AVAILABLE_SPACE.toString()))
+                .park(car);
     }
 
     public Optional<ParkingLot> findTargetParkingLot() {
@@ -35,17 +37,14 @@ public class ParkingBoy {
                 .filter(parkingLot -> !parkingLot.isFull()).findFirst();
     }
 
-    private ParkingLot findParkingLotByName(String parkingLotName) {
-        Optional<ParkingLot> targetParkingLot = parkingLots.stream()
+    private Optional<ParkingLot> findParkingLotByName(String parkingLotName) {
+        return parkingLots.stream()
                 .filter(parkingLot -> parkingLotName.equals(parkingLot.getName())).findFirst();
-        return targetParkingLot.isPresent() ? targetParkingLot.get() : null;
     }
 
     public Car pick(Receipt receipt) throws ParkingLotException {
-        ParkingLot parkingLot = findParkingLotByName(receipt.getParkingLotName());
-        if (parkingLot == null) {
-            throw new ParkingLotException(ParkingLotException.Message.PARKING_LOT_NOT_FOUND.toString());
-        }
-        return parkingLot.pick(receipt);
+        return findParkingLotByName(receipt.getParkingLotName())
+                .orElseThrow(() -> new ParkingLotException(ParkingLotException.Message.PARKING_LOT_NOT_FOUND.toString()))
+                .pick(receipt);
     }
 }

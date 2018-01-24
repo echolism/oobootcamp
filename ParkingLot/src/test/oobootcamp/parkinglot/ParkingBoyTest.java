@@ -150,7 +150,7 @@ public class ParkingBoyTest {
     @Test
     public void testGivenParkingBoyAndParkingLot1AndParkedCarWhenParkingBoyPickCarFromParkingLot2ThenFailedToPickCar() throws ParkingLotException {
         thrown.expect(ParkingLotException.class);
-        thrown.expectMessage(ParkingLotException.Message.CAR_IN_PARKING_LOT.toString());
+        thrown.expectMessage(ParkingLotException.Message.PARKING_LOT_NOT_FOUND.toString());
 
         ParkingBoy parkingBoy = new ParkingBoy();
         parkingBoy.manage(new ParkingLot("1", 1));
