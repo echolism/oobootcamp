@@ -1,19 +1,25 @@
 package oobootcamp.parkinglot;
 
+import oobootcamp.parkinglot.exception.ParkingLotException;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 
 public class SmartParkingBoyTest { // Composition over inheritance -> strategy design pattern?
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
     /**
      * Given smart parking boy has an empty parking lot and a car
      * When smart parking boy park a car
      * Then smart parking boy will be able to park a car
      */
     @Test
-    public void testGivenSmartParkingBoyWithEmptyParkingLotAndCarWhenParkCarThenCanParkCar() {
+    public void testGivenSmartParkingBoyWithEmptyParkingLotAndCarWhenParkCarThenCanParkCar() throws ParkingLotException {
         SmartParkingBoy smartParkingBoy = new SmartParkingBoy();
         smartParkingBoy.manage(new ParkingLot("1", 1));
         Car car = new Car("A");
@@ -29,16 +35,17 @@ public class SmartParkingBoyTest { // Composition over inheritance -> strategy d
      * Then smart parking boy will be failed to park a car
      */
     @Test
-    public void testGivenSmartParkingBoyWithFullParkingLotAndCarWhenParkCarThenFailedToParkCar() {
+    public void testGivenSmartParkingBoyWithFullParkingLotAndCarWhenParkCarThenFailedToParkCar() throws ParkingLotException {
+        thrown.expect(ParkingLotException.class);
+        thrown.expectMessage("No available space");
+
         SmartParkingBoy smartParkingBoy = new SmartParkingBoy();
         smartParkingBoy.manage(new ParkingLot("1", 1));
         Car carA = new Car("A");
         Car carB = new Car("B");
         smartParkingBoy.park(carA);
 
-        Receipt receipt = smartParkingBoy.park(carB);
-
-        assertNull(receipt);
+        smartParkingBoy.park(carB);
     }
 
     /**
@@ -47,7 +54,7 @@ public class SmartParkingBoyTest { // Composition over inheritance -> strategy d
      * Then smart parking boy will be able to pick the car
      */
     @Test
-    public void testGivenSmartParkingBoyAndParkedCarWhenPickCarThenCanPickCar() {
+    public void testGivenSmartParkingBoyAndParkedCarWhenPickCarThenCanPickCar() throws ParkingLotException {
         SmartParkingBoy smartParkingBoy = new SmartParkingBoy();
         smartParkingBoy.manage(new ParkingLot("1", 1));
         Car car = new Car("A");
@@ -64,16 +71,17 @@ public class SmartParkingBoyTest { // Composition over inheritance -> strategy d
      * Then smart parking boy will be failed to pick the car again
      */
     @Test
-    public void testGivenSmartParkingBoyAndCarWhenPickCarThenFailedToPickCar() {
+    public void testGivenSmartParkingBoyAndCarWhenPickCarThenFailedToPickCar() throws ParkingLotException {
+        thrown.expect(ParkingLotException.class);
+        thrown.expectMessage("Car is not in parking lot");
+
         SmartParkingBoy smartParkingBoy = new SmartParkingBoy();
         smartParkingBoy.manage(new ParkingLot("1", 1));
         Car car = new Car("A");
         Receipt receipt = smartParkingBoy.park(car);
 
         smartParkingBoy.pick(receipt);
-        Car pickedCar = smartParkingBoy.pick(receipt);
-
-        assertNull(pickedCar);
+        smartParkingBoy.pick(receipt);
     }
 
     /**
@@ -82,7 +90,7 @@ public class SmartParkingBoyTest { // Composition over inheritance -> strategy d
      * Then smart parking boy will be able to park a car to 1st parking lot
      */
     @Test
-    public void testGivenSmartParkingBoyWith2SameAvailableSlotsParkingLotAndCarWhenParkCarThenCanParkTo1stParkingLot() {
+    public void testGivenSmartParkingBoyWith2SameAvailableSlotsParkingLotAndCarWhenParkCarThenCanParkTo1stParkingLot() throws ParkingLotException {
         SmartParkingBoy smartParkingBoy = new SmartParkingBoy();
         smartParkingBoy.manage(new ParkingLot("1",1));
         smartParkingBoy.manage(new ParkingLot("2",1));
@@ -99,7 +107,7 @@ public class SmartParkingBoyTest { // Composition over inheritance -> strategy d
      * Then smart parking boy will be able to park a car to 1st parking lot
      */
     @Test
-    public void testGivenSmartParkingBoyWith2SlotsParkingLotWith1stHasMoreAvailableSlotsAndCarWhenParkCarThenCanParkTo1stParkingLot() {
+    public void testGivenSmartParkingBoyWith2SlotsParkingLotWith1stHasMoreAvailableSlotsAndCarWhenParkCarThenCanParkTo1stParkingLot() throws ParkingLotException {
         SmartParkingBoy smartParkingBoy = new SmartParkingBoy();
         smartParkingBoy.manage(new ParkingLot("1",200));
         smartParkingBoy.manage(new ParkingLot("2",1));
@@ -115,7 +123,7 @@ public class SmartParkingBoyTest { // Composition over inheritance -> strategy d
      * Then smart parking boy will be able to park a car to 2nd parking lot
      */
     @Test
-    public void testGivenSmartParkingBoyWith2SlotsParkingLotWith2ndHasMoreAvailableSlotsAndCarWhenParkCarThenCanParkTo1stParkingLot() {
+    public void testGivenSmartParkingBoyWith2SlotsParkingLotWith2ndHasMoreAvailableSlotsAndCarWhenParkCarThenCanParkTo1stParkingLot() throws ParkingLotException {
         SmartParkingBoy smartParkingBoy = new SmartParkingBoy();
         smartParkingBoy.manage(new ParkingLot("1",1));
         smartParkingBoy.manage(new ParkingLot("2",200));
@@ -131,7 +139,7 @@ public class SmartParkingBoyTest { // Composition over inheritance -> strategy d
      * Then smart parking boy will be able to park a car to 2nd parking lot
      */
     @Test
-    public void testGivenSmartParkingBoyWith3SlotsParkingLotWith2ndHasMoreAvailableSlotsAndCarWhenParkCarThenCanParkTo1stParkingLot() {
+    public void testGivenSmartParkingBoyWith3SlotsParkingLotWith2ndHasMoreAvailableSlotsAndCarWhenParkCarThenCanParkTo1stParkingLot() throws ParkingLotException {
         SmartParkingBoy smartParkingBoy = new SmartParkingBoy();
         smartParkingBoy.manage(new ParkingLot("1",1));
         smartParkingBoy.manage(new ParkingLot("2",20));
@@ -148,7 +156,7 @@ public class SmartParkingBoyTest { // Composition over inheritance -> strategy d
      * Then smart parking boy will be able to park a car to 3rd parking lot
      */
     @Test
-    public void testGivenSmartParkingBoyWith3SlotsParkingLotWith3rdHasMoreAvailableSlotsAndCarWhenParkCarThenCanParkTo1stParkingLot() {
+    public void testGivenSmartParkingBoyWith3SlotsParkingLotWith3rdHasMoreAvailableSlotsAndCarWhenParkCarThenCanParkTo1stParkingLot() throws ParkingLotException {
         SmartParkingBoy smartParkingBoy = new SmartParkingBoy();
         smartParkingBoy.manage(new ParkingLot("1",1));
         smartParkingBoy.manage(new ParkingLot("2",1));

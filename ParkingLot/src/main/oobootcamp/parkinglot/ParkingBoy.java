@@ -1,5 +1,7 @@
 package oobootcamp.parkinglot;
 
+import oobootcamp.parkinglot.exception.ParkingLotException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -20,15 +22,13 @@ public class ParkingBoy {
         return parkingLots;
     }
 
-    public Receipt park(Car car) {
-        Optional<ParkingLot> availableEmptyParkingLot = findTargetParkingLot();
-        return availableEmptyParkingLot.isPresent() ? availableEmptyParkingLot.get().park(car) : null;
+    public Receipt park(Car car) throws ParkingLotException {
+        return findTargetParkingLot().orElseThrow(() -> new ParkingLotException("No available space")).park(car);
     }
 
     public Optional<ParkingLot> findTargetParkingLot() {
         return findFirstEmptyParkingLot();
     }
-
 
     private Optional<ParkingLot> findFirstEmptyParkingLot() {
         return parkingLots.stream()
@@ -41,10 +41,10 @@ public class ParkingBoy {
         return targetParkingLot.isPresent() ? targetParkingLot.get() : null;
     }
 
-    public Car pick(Receipt receipt) {
+    public Car pick(Receipt receipt) throws ParkingLotException {
         ParkingLot parkingLot = findParkingLotByName(receipt.getParkingLotName());
         if (parkingLot == null) {
-            return null;
+            throw new ParkingLotException("Parking lot not found");
         }
         return parkingLot.pick(receipt);
     }

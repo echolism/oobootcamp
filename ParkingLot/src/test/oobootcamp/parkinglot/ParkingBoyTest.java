@@ -1,21 +1,23 @@
 package oobootcamp.parkinglot;
 
-import oobootcamp.parkinglot.Car;
-import oobootcamp.parkinglot.ParkingBoy;
-import oobootcamp.parkinglot.ParkingLot;
-import oobootcamp.parkinglot.Receipt;
+import oobootcamp.parkinglot.exception.ParkingLotException;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import static org.junit.Assert.*;
 
 public class ParkingBoyTest {
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
     /**
      * Given parking boy has an empty parking lot and a car
      * When parking boy parks a car to the parking lot
      * Then parking boy will be able to park a car and get receipt
      */
     @Test
-    public void testGivenParkingBoyWithEmptyParkingLotAndCarWhenParkCarThenCanParkCar() {
+    public void testGivenParkingBoyWithEmptyParkingLotAndCarWhenParkCarThenCanParkCar() throws ParkingLotException {
         ParkingBoy parkingBoy = new ParkingBoy();
         parkingBoy.manage(new ParkingLot("1", 1));
         Car car = new Car("A");
@@ -31,16 +33,17 @@ public class ParkingBoyTest {
      * Then parking boy will be failed to park a car
      */
     @Test
-    public void testGivenParkingBoyWithFullParkingLotAndCarWhenParkCarThenFailedToParkCar() {
+    public void testGivenParkingBoyWithFullParkingLotAndCarWhenParkCarThenFailedToParkCar() throws ParkingLotException {
+        thrown.expect(ParkingLotException.class);
+        thrown.expectMessage("No available space");
+
         ParkingBoy parkingBoy = new ParkingBoy();
         parkingBoy.manage(new ParkingLot("1", 1));
         Car carA = new Car("A");
         Car carB = new Car("B");
         parkingBoy.park(carA);
 
-        Receipt receipt = parkingBoy.park(carB);
-
-        assertNull(receipt);
+        parkingBoy.park(carB);
     }
 
     /**
@@ -49,7 +52,7 @@ public class ParkingBoyTest {
      * Then parking boy will be able to park a car in 1st empty parking lot
      */
     @Test
-    public void testGivenParkingBoyWith2EmptyParkingLotWhenParkCarThenCanParkCarTo1stParkingLot() {
+    public void testGivenParkingBoyWith2EmptyParkingLotWhenParkCarThenCanParkCarTo1stParkingLot() throws ParkingLotException {
         ParkingBoy parkingBoy = new ParkingBoy();
         parkingBoy.manage(new ParkingLot("1", 1));
         parkingBoy.manage(new ParkingLot("2", 1));
@@ -67,7 +70,7 @@ public class ParkingBoyTest {
      * Then parking boy will be able to park a car in the 2nd parking lot
      */
     @Test
-    public void testGivenParkingBoyWith1FullParkingLotAnd1EmptyParkingLotAndCarWhenParkCarThenCanParkCarToEmptyParkingLot() {
+    public void testGivenParkingBoyWith1FullParkingLotAnd1EmptyParkingLotAndCarWhenParkCarThenCanParkCarToEmptyParkingLot() throws ParkingLotException {
         ParkingBoy parkingBoy = new ParkingBoy();
         parkingBoy.manage(new ParkingLot("1", 1));
         parkingBoy.manage(new ParkingLot("2", 1));
@@ -87,7 +90,10 @@ public class ParkingBoyTest {
      * Then parking boy will be failed to park a car
      */
     @Test
-    public void testGivenParkingBoyWith2FullParkingLotAndCarWhenParkCarThenFailedToParkCar() {
+    public void testGivenParkingBoyWith2FullParkingLotAndCarWhenParkCarThenFailedToParkCar() throws ParkingLotException {
+        thrown.expect(ParkingLotException.class);
+        thrown.expectMessage("No available space");
+
         ParkingBoy parkingBoy = new ParkingBoy();
         parkingBoy.manage(new ParkingLot("1", 1));
         parkingBoy.manage(new ParkingLot("2", 1));
@@ -97,9 +103,7 @@ public class ParkingBoyTest {
         parkingBoy.park(carA);
         parkingBoy.park(carB);
 
-        Receipt receipt = parkingBoy.park(carC);
-
-        assertNull(receipt);
+        parkingBoy.park(carC);
     }
 
     /**
@@ -108,7 +112,7 @@ public class ParkingBoyTest {
      * Then parking boy will be able to pick the car
      */
     @Test
-    public void testGivenParkingBoyAndParkedCarWhenPickCarThenCanPickCar() {
+    public void testGivenParkingBoyAndParkedCarWhenPickCarThenCanPickCar() throws ParkingLotException {
         ParkingBoy parkingBoy = new ParkingBoy();
         parkingBoy.manage(new ParkingLot("1", 1));
         Car car = new Car("A");
@@ -125,16 +129,17 @@ public class ParkingBoyTest {
      * Then parking boy will be failed to pick the car again
      */
     @Test
-    public void testGivenParkingBoyAndCarWhenPickCarThenFailedToPickCar() {
+    public void testGivenParkingBoyAndCarWhenPickCarThenFailedToPickCar() throws ParkingLotException {
+        thrown.expect(ParkingLotException.class);
+        thrown.expectMessage("Car is not in parking lot");
+
         ParkingBoy parkingBoy = new ParkingBoy();
         parkingBoy.manage(new ParkingLot("1", 1));
         Car car = new Car("A");
         Receipt receipt = parkingBoy.park(car);
 
         parkingBoy.pick(receipt);
-        Car pickedCar = parkingBoy.pick(receipt);
-
-        assertNull(pickedCar);
+        parkingBoy.pick(receipt);
     }
 
     /**
@@ -143,16 +148,17 @@ public class ParkingBoyTest {
      * Then parking boy will be failed to pick the car
      */
     @Test
-    public void testGivenParkingBoyAndParkingLot1AndParkedCarWhenParkingBoyPickCarFromParkingLot2ThenFailedToPickCar() {
+    public void testGivenParkingBoyAndParkingLot1AndParkedCarWhenParkingBoyPickCarFromParkingLot2ThenFailedToPickCar() throws ParkingLotException {
+        thrown.expect(ParkingLotException.class);
+        thrown.expectMessage("Parking lot not found");
+
         ParkingBoy parkingBoy = new ParkingBoy();
         parkingBoy.manage(new ParkingLot("1", 1));
         Car car = new Car("A");
         parkingBoy.park(car);
 
         Receipt fakeReceipt = new Receipt("2", "A");
-        Car pickedCar = parkingBoy.pick(fakeReceipt);
-
-        assertNull(pickedCar);
+        parkingBoy.pick(fakeReceipt);
     }
 
     /**
@@ -161,7 +167,7 @@ public class ParkingBoyTest {
      * Then parking boy will be able to park the car to parking lot 1
      */
     @Test
-    public void testGivenParkingBoyAndFullParkingLotAnd1EmptyParkingLotAndCarWhenPickCarFromParkingLot1ThenCanParkCarToParkingLot1() {
+    public void testGivenParkingBoyAndFullParkingLotAnd1EmptyParkingLotAndCarWhenPickCarFromParkingLot1ThenCanParkCarToParkingLot1() throws ParkingLotException {
         ParkingBoy parkingBoy = new ParkingBoy();
         parkingBoy.manage(new ParkingLot("1", 1));
         parkingBoy.manage(new ParkingLot("2", 1));
