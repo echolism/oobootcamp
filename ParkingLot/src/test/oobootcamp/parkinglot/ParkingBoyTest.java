@@ -1,4 +1,4 @@
-package oobootcamp.parkinglot.test;
+package oobootcamp.parkinglot;
 
 import oobootcamp.parkinglot.Car;
 import oobootcamp.parkinglot.ParkingBoy;
