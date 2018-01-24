@@ -42,10 +42,10 @@ public class ParkingBoy {
     }
 
     public Car pick(Receipt receipt) {
-        ParkingLot parkinglLot = findParkingLotByName(receipt.getParkingLotName());
-        if (parkinglLot == null) {
+        ParkingLot parkingLot = findParkingLotByName(receipt.getParkingLotName());
+        if (parkingLot == null) {
             return null;
         }
-        return parkinglLot.pick(receipt);
+        return parkingLot.pick(receipt);
     }
 }

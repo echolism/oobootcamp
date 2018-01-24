@@ -138,6 +138,24 @@ public class ParkingBoyTest {
     }
 
     /**
+     * Given parking boy has a parking lot 1 and a car parked in parking lot 1 and a fake receipt
+     * When parking boy pick a car using the fake receipt
+     * Then parking boy will be failed to pick the car
+     */
+    @Test
+    public void testGivenParkingBoyAndParkingLot1AndParkedCarWhenParkingBoyPickCarFromParkingLot2ThenFailedToPickCar() {
+        ParkingBoy parkingBoy = new ParkingBoy();
+        parkingBoy.manage(new ParkingLot("1", 1));
+        Car car = new Car("A");
+        parkingBoy.park(car);
+
+        Receipt fakeReceipt = new Receipt("2", "A");
+        Car pickedCar = parkingBoy.pick(fakeReceipt);
+
+        assertNull(pickedCar);
+    }
+
+    /**
      * Given parking boy has a full parking lot and an empty parking lot and a car
      * When parking boy picks a car A which is from parking lot 1
      * Then parking boy will be able to park the car to parking lot 1
