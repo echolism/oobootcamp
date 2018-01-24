@@ -51,9 +51,9 @@ public class ParkingLotTest {
     public void testGivenParkingLotAndParkedCarWhenPickCarThenCanPickCar() {
         ParkingLot parkingLot = new ParkingLot("1", 1);
         Car car = new Car("A");
-        parkingLot.park(car);
+        Receipt receipt = parkingLot.park(car);
 
-        Car pickedCar = parkingLot.pick(car);
+        Car pickedCar = parkingLot.pick(receipt);
 
         assertSame(car, pickedCar);
         assertFalse(pickedCar.isParked());
@@ -61,16 +61,16 @@ public class ParkingLotTest {
     }
 
     /**
-     * Given I have an empty parking lot and a car
+     * Given I have an empty parking lot and a receipt
      * When I pick the car from the parking lot
      * Then I will be failed to pick the car
      */
     @Test
     public void testGivenParkingLotAndCarWhenPickCarThenFailedToPickCar() {
         ParkingLot parkingLot = new ParkingLot("1", 1);
-        Car car = new Car("A");
+        Receipt receipt = new Receipt("1", "A");
 
-        Car pickedCar = parkingLot.pick(car);
+        Car pickedCar = parkingLot.pick(receipt);
 
         assertNull(pickedCar);
     }
@@ -86,9 +86,9 @@ public class ParkingLotTest {
         Car carA = new Car("A");
         Car carB = new Car("B");
         parkingLot.park(carA);
-        parkingLot.park(carB);
+        Receipt receiptB = parkingLot.park(carB);
 
-        Car pickedCar = parkingLot.pick(carB);
+        Car pickedCar = parkingLot.pick(receiptB);
 
         assertSame(carB, pickedCar);
         assertFalse(pickedCar.isParked());
@@ -104,10 +104,10 @@ public class ParkingLotTest {
     public void testGivenParkingLotAndParkedCarWhenPickCarThenFailedToPickCar() {
         ParkingLot parkingLot = new ParkingLot("1", 1);
         Car car = new Car("A");
-        parkingLot.park(car);
-        parkingLot.pick(car);
+        Receipt receipt = parkingLot.park(car);
+        parkingLot.pick(receipt);
 
-        Car pickedCar = parkingLot.pick(car);
+        Car pickedCar = parkingLot.pick(receipt);
 
         assertNull(pickedCar);
     }

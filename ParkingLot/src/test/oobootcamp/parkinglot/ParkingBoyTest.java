@@ -117,9 +117,9 @@ public class ParkingBoyTest {
         ParkingBoy parkingBoy = new ParkingBoy("Boy");
         parkingBoy.manage(new ParkingLot("1", 1));
         Car car = new Car("A");
-        parkingBoy.park(car);
+        Receipt receipt = parkingBoy.park(car);
 
-        Car pickedCar = parkingBoy.pick(car);
+        Car pickedCar = parkingBoy.pick(receipt);
 
         assertSame(car, pickedCar);
         assertFalse(pickedCar.isParked());
@@ -135,10 +135,10 @@ public class ParkingBoyTest {
         ParkingBoy parkingBoy = new ParkingBoy("Boy");
         parkingBoy.manage(new ParkingLot("1", 1));
         Car car = new Car("A");
-        parkingBoy.park(car);
+        Receipt receipt = parkingBoy.park(car);
 
-        parkingBoy.pick(car);
-        Car pickedCar = parkingBoy.pick(car);
+        parkingBoy.pick(receipt);
+        Car pickedCar = parkingBoy.pick(receipt);
 
         assertNull(pickedCar);
     }
@@ -155,13 +155,13 @@ public class ParkingBoyTest {
         parkingBoy.manage(new ParkingLot("2", 1));
         Car carA = new Car("A");
         Car carB = new Car("B");
-        parkingBoy.park(carA);
+        Receipt receiptA = parkingBoy.park(carA);
 
-        parkingBoy.pick(carA);
-        Receipt receipt = parkingBoy.park(carB);
+        parkingBoy.pick(receiptA);
+        Receipt receiptB = parkingBoy.park(carB);
 
         assertTrue(carB.isParked());
-        assertEquals("B", receipt.getCarLicense());
-        assertEquals("1", receipt.getParkingLotName());
+        assertEquals("B", receiptB.getCarLicense());
+        assertEquals("1", receiptB.getParkingLotName());
     }
 }

@@ -24,9 +24,9 @@ public class ParkingBoy {
         return firstEmptyParkingLot.isPresent() ? firstEmptyParkingLot.get().park(car) : null;
     }
 
-    public Car pick(Car car) {
+    public Car pick(Receipt receipt) {
         for (ParkingLot parkingLot : parkingLots) {
-            Car pickedCar = parkingLot.pick(car);
+            Car pickedCar = parkingLot.pick(receipt);
             if (pickedCar != null) {
                 return pickedCar;
             }

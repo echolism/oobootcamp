@@ -18,7 +18,7 @@ public class ParkingLot {
         if (parkedCars.size() >= capacity) {
             return null;
         }
-        if (search(car) != null) {
+        if (findByLicense(car.getLicense()) != null) {
             return null;
         }
         parkedCars.add(car);
@@ -26,14 +26,14 @@ public class ParkingLot {
         return new Receipt(name, car.getLicense());
     }
 
-    private Car search(Car car) {
+    private Car findByLicense(String carLicense) {
         return parkedCars.stream()
-                .filter(parkedCar -> parkedCar.getLicense().equals(car.getLicense()))
+                .filter(parkedCar -> carLicense.equals(parkedCar.getLicense()))
                 .findFirst().orElse(null);
     }
 
-    public Car pick(Car car) {
-        Car parkedCar = search(car);
+    public Car pick(Receipt receipt) {
+        Car parkedCar = findByLicense(receipt.getCarLicense());
         if (parkedCar == null) {
             return null;
         }
