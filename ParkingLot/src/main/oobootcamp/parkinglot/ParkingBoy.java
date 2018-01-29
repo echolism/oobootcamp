@@ -9,6 +9,7 @@ import java.util.Optional;
 public class ParkingBoy {
 
     private final List<ParkingLot> parkingLots;
+    private ParkingStrategy parkingStrategy;
 
     public ParkingBoy() {
         this.parkingLots = new ArrayList<>();
@@ -23,18 +24,12 @@ public class ParkingBoy {
     }
 
     public Receipt park(Car car) throws ParkingLotException {
-        return findTargetParkingLot()
+        if (parkingStrategy == null) {
+            parkingStrategy = new NormalParkingStrategy();
+        }
+        return parkingStrategy.findTargetParkingLot(getParkingLots())
                 .orElseThrow(() -> new ParkingLotException(ParkingLotException.Message.NO_AVAILABLE_SPACE.toString()))
                 .park(car);
-    }
-
-    public Optional<ParkingLot> findTargetParkingLot() {
-        return findFirstEmptyParkingLot();
-    }
-
-    private Optional<ParkingLot> findFirstEmptyParkingLot() {
-        return parkingLots.stream()
-                .filter(parkingLot -> !parkingLot.isFull()).findFirst();
     }
 
     private Optional<ParkingLot> findParkingLotByName(String parkingLotName) {
@@ -46,5 +41,9 @@ public class ParkingBoy {
         return findParkingLotByName(receipt.getParkingLotName())
                 .orElseThrow(() -> new ParkingLotException(ParkingLotException.Message.PARKING_LOT_NOT_FOUND.toString()))
                 .pick(receipt);
+    }
+
+    public void learn(ParkingStrategy parkingStrategy) {
+        this.parkingStrategy = parkingStrategy;
     }
 }
