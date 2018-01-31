@@ -5,6 +5,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import static oobootcamp.parkinglot.exception.ParkingLotException.Message.*;
 import static org.junit.Assert.*;
 
 public class ParkingBoyTest {
@@ -35,7 +36,7 @@ public class ParkingBoyTest {
     @Test
     public void testGivenParkingBoyWithFullParkingLotAndCarWhenParkCarThenFailedToParkCar() throws ParkingLotException {
         thrown.expect(ParkingLotException.class);
-        thrown.expectMessage(ParkingLotException.Message.NO_AVAILABLE_SPACE.toString());
+        thrown.expectMessage(NO_AVAILABLE_SPACE.toString());
 
         ParkingBoy parkingBoy = new ParkingBoy();
         parkingBoy.manage(new ParkingLot("1", 1));
@@ -92,7 +93,7 @@ public class ParkingBoyTest {
     @Test
     public void testGivenParkingBoyWith2FullParkingLotAndCarWhenParkCarThenFailedToParkCar() throws ParkingLotException {
         thrown.expect(ParkingLotException.class);
-        thrown.expectMessage(ParkingLotException.Message.NO_AVAILABLE_SPACE.toString());
+        thrown.expectMessage(NO_AVAILABLE_SPACE.toString());
 
         ParkingBoy parkingBoy = new ParkingBoy();
         parkingBoy.manage(new ParkingLot("1", 1));
@@ -131,7 +132,7 @@ public class ParkingBoyTest {
     @Test
     public void testGivenParkingBoyAndCarWhenPickCarThenFailedToPickCar() throws ParkingLotException {
         thrown.expect(ParkingLotException.class);
-        thrown.expectMessage(ParkingLotException.Message.CAR_NOT_FOUND.toString());
+        thrown.expectMessage(CAR_NOT_FOUND.toString());
 
         ParkingBoy parkingBoy = new ParkingBoy();
         parkingBoy.manage(new ParkingLot("1", 1));
@@ -150,7 +151,7 @@ public class ParkingBoyTest {
     @Test
     public void testGivenParkingBoyAndParkingLot1AndParkedCarWhenParkingBoyPickCarFromParkingLot2ThenFailedToPickCar() throws ParkingLotException {
         thrown.expect(ParkingLotException.class);
-        thrown.expectMessage(ParkingLotException.Message.PARKING_LOT_NOT_FOUND.toString());
+        thrown.expectMessage(PARKING_LOT_NOT_FOUND.toString());
 
         ParkingBoy parkingBoy = new ParkingBoy();
         parkingBoy.manage(new ParkingLot("1", 1));
