@@ -52,4 +52,8 @@ public abstract class ParkingPerson {
                 .orElseThrow(() -> new ParkingLotException(ParkingLotException.Message.PARKING_LOT_NOT_FOUND.toString()))
                 .pick(receipt);
     }
+
+    public String getName() {
+        return name;
+    }
 }

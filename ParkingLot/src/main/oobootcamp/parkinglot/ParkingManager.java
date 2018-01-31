@@ -11,12 +11,13 @@ public class ParkingManager extends ParkingPerson {
         parkingBoys = new ArrayList<>();
     }
 
-    public Receipt parkByParkingBoy(ParkingPerson parkingBoy, Car car) {
+    public Report parkByParkingBoy(ParkingPerson parkingBoy, Car car) {
         parkingBoy.manage(getParkingLots());
-        return parkingBoy.park(car);
+        Receipt receipt = parkingBoy.park(car);
+        return new Report(parkingBoy.getName(), receipt);
     }
 
-    public Receipt parkByParkingBoy(String parkingBoyName, Car car) {
+    public Report parkByParkingBoy(String parkingBoyName, Car car) {
         return parkByParkingBoy(parkingBoys.get(0), car);
     }
 

@@ -24,24 +24,25 @@ public class ParkingManagerTest {
     /**
      * Given parking manager has an empty parking lot and a car and a parking boy
      * When parking manager ask parking boy to park a car
-     * Then parking boy can park a car and parking manager will be able get the receipt
+     * Then parking boy can park a car and parking manager will be able get the report
      */
     @Test
     public void testGivenParkingManagerWithEmptyParkingLotAndCarAndParkingBoyWhenParkCarThenCanParkCar() {
         ParkingManager parkingManager = new ParkingManager();
         parkingManager.manage(new ParkingLot("1", 1));
-        ParkingPerson parkingBoy = new ParkingBoy();
+        ParkingPerson parkingBoy = new ParkingBoy("Q");
         Car car = new Car("A");
 
-        Receipt receipt = parkingManager.parkByParkingBoy(parkingBoy, car);
+        Report report = parkingManager.parkByParkingBoy(parkingBoy, car);
 
-        assertEquals("A", receipt.getCarLicense());
+        assertEquals("A", report.getCarLicense());
+        assertEquals("Q", report.getParkingPersonName());
     }
 
     /**
      * Given parking manager has an empty parking lot and a car and manage a parking boy
      * When parking manager ask his own parking boy to park a car
-     * Then parking boy Q can park a car and parking manager will be able get the receipt
+     * Then parking boy Q can park a car and parking manager will be able get the report
      */
     @Test
     public void testGivenParkingManagerWithEmptyParkingLotAndCarManageParkingBoyWhenParkCarThenCanParkCar() {
@@ -50,15 +51,15 @@ public class ParkingManagerTest {
         parkingManager.manageParkingBoy(new ParkingBoy("Q"));
         Car car = new Car("A");
 
-        Receipt receipt = parkingManager.parkByParkingBoy("Q", car);
+        Report report = parkingManager.parkByParkingBoy("Q", car);
 
-        assertEquals("A", receipt.getCarLicense());
-        assertEquals("Q", receipt.getParkingPersonName());
+        assertEquals("A", report.getCarLicense());
+        assertEquals("Q", report.getParkingPersonName());
     }
 
     /**
      * Given parking manager has an empty parking lot and a car and manage parking boy Q and W
      * When parking manager ask parking boy W to park a car
-     * Then parking boy W can park a car and parking manager will be able get the receipt
+     * Then parking boy W can park a car and parking manager will be able get the report
      */
 }
