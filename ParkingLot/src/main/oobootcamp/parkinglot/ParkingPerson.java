@@ -32,7 +32,7 @@ public abstract class ParkingPerson {
     }
 
     public void manage(List<ParkingLot> parkingLots) {
-        parkingLots.forEach(this::manage);
+        this.parkingLots.addAll(parkingLots);
     }
 
     public Receipt park(Car car) throws ParkingLotException {

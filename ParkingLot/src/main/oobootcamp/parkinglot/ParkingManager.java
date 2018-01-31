@@ -30,7 +30,7 @@ public class ParkingManager extends ParkingPerson {
                 .findFirst();
     }
 
-    public void manageParkingBoy(ParkingPerson parkingBoy) {
+    public void employ(ParkingPerson parkingBoy) {
         parkingBoys.add(parkingBoy);
     }
 }

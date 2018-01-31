@@ -34,10 +34,10 @@ public class ParkingManagerTest {
      * Then parking boy Q can park a car and parking manager will be able get the report
      */
     @Test
-    public void testGivenParkingManagerWithEmptyParkingLotAndCarManageParkingBoyQWhenAskQToParkCarThenQCanParCar() {
+    public void testGivenParkingManagerWithEmptyParkingLotAndCarEmployParkingBoyQWhenAskQToParkCarThenQCanParCar() {
         ParkingManager parkingManager = new ParkingManager();
         parkingManager.manage(new ParkingLot("1", 1));
-        parkingManager.manageParkingBoy(new ParkingBoy("Q"));
+        parkingManager.employ(new ParkingBoy("Q"));
         Car car = new Car("A");
 
         Report report = parkingManager.parkByParkingBoy("Q", car);
@@ -52,29 +52,29 @@ public class ParkingManagerTest {
      * Then parking manager will be failed to find E to park the car
      */
     @Test
-    public void testGivenParkingManagerWithEmptyParkingLotAndCarManageParkingBoyQWhenAskEToParkCarThenFailedToParkCar() {
+    public void testGivenParkingManagerWithEmptyParkingLotAndCarEmployParkingBoyQWhenAskEToParkCarThenFailedToParkCar() {
         thrown.expect(ParkingLotException.class);
         thrown.expectMessage(PARKING_BOY_NOT_FOUND.toString());
 
         ParkingManager parkingManager = new ParkingManager();
         parkingManager.manage(new ParkingLot("1", 1));
-        parkingManager.manageParkingBoy(new ParkingBoy("Q"));
+        parkingManager.employ(new ParkingBoy("Q"));
         Car car = new Car("A");
 
         parkingManager.parkByParkingBoy("E", car);
     }
 
     /**
-     * Given parking manager has an empty parking lot and a car and manage parking boy Q and W
+     * Given parking manager has an empty parking lot and a car and employ parking boy Q and W
      * When parking manager ask parking boy Q to park a car
      * Then parking boy Q can park a car and parking manager will be able get the report
      */
     @Test
-    public void testGivenParkingManagerWithEmptyParkingLotAndCarManageParkingBoyQWWhenAskQToParkCarThenQCanParCar() {
+    public void testGivenParkingManagerWithEmptyParkingLotAndCarEmployParkingBoyQWWhenAskQToParkCarThenQCanParCar() {
         ParkingManager parkingManager = new ParkingManager();
         parkingManager.manage(new ParkingLot("1", 1));
-        parkingManager.manageParkingBoy(new ParkingBoy("Q"));
-        parkingManager.manageParkingBoy(new ParkingBoy("W"));
+        parkingManager.employ(new ParkingBoy("Q"));
+        parkingManager.employ(new ParkingBoy("W"));
         Car car = new Car("A");
 
         Report report = parkingManager.parkByParkingBoy("Q", car);
@@ -84,16 +84,16 @@ public class ParkingManagerTest {
     }
 
     /**
-     * Given parking manager has an empty parking lot and a car and manage parking boy Q and W
+     * Given parking manager has an empty parking lot and a car and employ parking boy Q and W
      * When parking manager ask parking boy W to park a car
      * Then parking boy W can park a car and parking manager will be able get the report
      */
     @Test
-    public void testGivenParkingManagerWithEmptyParkingLotAndCarManageParkingBoyQWWhenAskWToParkCarThenWCanParkCar() {
+    public void testGivenParkingManagerWithEmptyParkingLotAndCarEmployParkingBoyQWWhenAskWToParkCarThenWCanParkCar() {
         ParkingManager parkingManager = new ParkingManager();
         parkingManager.manage(new ParkingLot("1", 1));
-        parkingManager.manageParkingBoy(new ParkingBoy("Q"));
-        parkingManager.manageParkingBoy(new ParkingBoy("W"));
+        parkingManager.employ(new ParkingBoy("Q"));
+        parkingManager.employ(new ParkingBoy("W"));
         Car car = new Car("A");
 
         Report report = parkingManager.parkByParkingBoy("W", car);
@@ -120,17 +120,17 @@ public class ParkingManagerTest {
     }
 
     /**
-     * Given parking manager has an empty parking lot and a car and manage parking boy Q, W and E
+     * Given parking manager has an empty parking lot and a car and employ parking boy Q, W and E
      * When parking manager ask parking boy E to park a car
      * Then parking boy E can park a car and parking manager will be able get the report
      */
     @Test
-    public void testGivenParkingManagerWithEmptyParkingLotAndCarManageParkingBoyQWEWhenAskEToParkCarThenECanParkCar() {
+    public void testGivenParkingManagerWithEmptyParkingLotAndCarEmployParkingBoyQWEWhenAskEToParkCarThenECanParkCar() {
         ParkingManager parkingManager = new ParkingManager();
         parkingManager.manage(new ParkingLot("1", 1));
-        parkingManager.manageParkingBoy(new ParkingBoy("Q"));
-        parkingManager.manageParkingBoy(new ParkingBoy("W"));
-        parkingManager.manageParkingBoy(new ParkingBoy("E"));
+        parkingManager.employ(new ParkingBoy("Q"));
+        parkingManager.employ(new ParkingBoy("W"));
+        parkingManager.employ(new ParkingBoy("E"));
         Car car = new Car("A");
 
         Report report = parkingManager.parkByParkingBoy("E", car);
