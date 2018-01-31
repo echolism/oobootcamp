@@ -1,7 +1,12 @@
 package oobootcamp.parkinglot;
 
+import oobootcamp.parkinglot.exception.ParkingLotException;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
+import static oobootcamp.parkinglot.exception.ParkingLotException.Message.PARKING_BOY_NOT_FOUND;
 
 public class ParkingManager extends ParkingPerson {
     private List<ParkingPerson> parkingBoys;
@@ -11,14 +16,18 @@ public class ParkingManager extends ParkingPerson {
         parkingBoys = new ArrayList<>();
     }
 
-    public Report parkByParkingBoy(ParkingPerson parkingBoy, Car car) {
-        parkingBoy.manage(getParkingLots());
-        Receipt receipt = parkingBoy.park(car);
-        return new Report(parkingBoy.getName(), receipt);
+    public Report parkByParkingBoy(String parkingPersonName, Car car) {
+        Optional<ParkingPerson> targetParkingBoy = findParkingPersonByName(parkingPersonName);
+        targetParkingBoy.orElseThrow(() -> new ParkingLotException(PARKING_BOY_NOT_FOUND.toString()))
+                .manage(getParkingLots());
+        Receipt receipt = targetParkingBoy.get().park(car);
+        return new Report(targetParkingBoy.get().getName(), receipt);
     }
 
-    public Report parkByParkingBoy(String parkingBoyName, Car car) {
-        return parkByParkingBoy(parkingBoys.get(0), car);
+    private Optional<ParkingPerson> findParkingPersonByName(String parkingPersonName) {
+        return parkingBoys.stream()
+                .filter(parkingPerson -> parkingPersonName.equals(parkingPerson.getName()))
+                .findFirst();
     }
 
     public void manageParkingBoy(ParkingPerson parkingBoy) {

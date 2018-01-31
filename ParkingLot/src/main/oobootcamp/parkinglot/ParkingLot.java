@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static oobootcamp.parkinglot.exception.ParkingLotException.Message.*;
+
 public class ParkingLot {
     private final String name;
     private final int capacity;
@@ -19,10 +21,10 @@ public class ParkingLot {
 
     public Receipt park(Car car) throws ParkingLotException {
         if (parkedCars.size() >= capacity) {
-            throw new ParkingLotException(ParkingLotException.Message.NO_AVAILABLE_SPACE.toString());
+            throw new ParkingLotException(NO_AVAILABLE_SPACE.toString());
         }
         if (findByLicense(car.getLicense()).isPresent()) {
-            throw new ParkingLotException(ParkingLotException.Message.CAR_IN_PARKING_LOT.toString());
+            throw new ParkingLotException(CAR_IN_PARKING_LOT.toString());
         }
         parkedCars.add(car);
         return new Receipt(name, car.getLicense());
@@ -36,7 +38,7 @@ public class ParkingLot {
 
     public Car pick(Receipt receipt) throws ParkingLotException {
         Optional<Car> targetCar = findByLicense(receipt.getCarLicense());
-        targetCar.orElseThrow(() -> new ParkingLotException(ParkingLotException.Message.CAR_NOT_FOUND.toString()));
+        targetCar.orElseThrow(() -> new ParkingLotException(CAR_NOT_FOUND.toString()));
         parkedCars.remove(targetCar.get());
         return targetCar.get();
     }

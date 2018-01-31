@@ -5,7 +5,8 @@ public class ParkingLotException extends RuntimeException {
         CAR_NOT_FOUND("Car not found"),
         CAR_IN_PARKING_LOT("Car is already in parking lot"),
         NO_AVAILABLE_SPACE("No available space"),
-        PARKING_LOT_NOT_FOUND("Parking lot not found");
+        PARKING_LOT_NOT_FOUND("Parking lot not found"),
+        PARKING_BOY_NOT_FOUND("Parking boy not found");
 
         private String msg;
 
