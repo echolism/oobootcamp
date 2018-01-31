@@ -143,4 +143,23 @@ public class ParkingManagerTest {
         assertEquals("A", report.getCarLicense());
         assertEquals("E", report.getParkingPersonName());
     }
+
+    /**
+     * Given parking manager has an empty parking lot and a car and manage a smart parking boy Q
+     * When parking manager ask smart parking boy Q to park a car
+     * Then smart parking boy Q can park a car and parking manager will be able get the report
+     */
+    @Test
+    public void testGivenParkingManagerWithEmptyParkingLotAndCarEmploySmartParkingBoyQWhenAskQToParkCarThenQCanParCar() {
+        ParkingManager parkingManager = new ParkingManager();
+        parkingManager.manage(new ParkingLot("1", 1));
+        ParkingPersonFactory smartParkingBoyFactory = new SmartParkingBoyFactory();
+        parkingManager.employ(smartParkingBoyFactory.train("Q"));
+        Car car = new Car("A");
+
+        Report report = parkingManager.parkByParkingBoy("Q", car);
+
+        assertEquals("A", report.getCarLicense());
+        assertEquals("Q", report.getParkingPersonName());
+    }
 }
