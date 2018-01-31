@@ -5,10 +5,11 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import static oobootcamp.parkinglot.exception.ParkingLotException.Message.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 
-public class SmartParkingBoyTest { // Composition over inheritance -> strategy design pattern?
+public class SmartParkingBoyTest {
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
@@ -36,7 +37,7 @@ public class SmartParkingBoyTest { // Composition over inheritance -> strategy d
     @Test
     public void testGivenSmartParkingBoyWithFullParkingLotAndCarWhenParkCarThenFailedToParkCar() throws ParkingLotException {
         thrown.expect(ParkingLotException.class);
-        thrown.expectMessage(ParkingLotException.Message.NO_AVAILABLE_SPACE.toString());
+        thrown.expectMessage(NO_AVAILABLE_SPACE.toString());
 
         ParkingPerson smartParkingBoy = new SmartParkingBoy();
         smartParkingBoy.manage(new ParkingLot("1", 1));
@@ -72,7 +73,7 @@ public class SmartParkingBoyTest { // Composition over inheritance -> strategy d
     @Test
     public void testGivenSmartParkingBoyAndCarWhenPickCarThenFailedToPickCar() throws ParkingLotException {
         thrown.expect(ParkingLotException.class);
-        thrown.expectMessage(ParkingLotException.Message.CAR_NOT_FOUND.toString());
+        thrown.expectMessage(CAR_NOT_FOUND.toString());
 
         ParkingPerson smartParkingBoy = new SmartParkingBoy();
         smartParkingBoy.manage(new ParkingLot("1", 1));
@@ -127,6 +128,7 @@ public class SmartParkingBoyTest { // Composition over inheritance -> strategy d
         smartParkingBoy.manage(new ParkingLot("1", 1));
         smartParkingBoy.manage(new ParkingLot("2", 200));
         Car car = new Car("A");
+
         Receipt receipt = smartParkingBoy.park(car);
 
         assertEquals("2", receipt.getParkingLotName());
@@ -144,6 +146,7 @@ public class SmartParkingBoyTest { // Composition over inheritance -> strategy d
         smartParkingBoy.manage(new ParkingLot("2", 20));
         smartParkingBoy.manage(new ParkingLot("3", 1));
         Car car = new Car("A");
+
         Receipt receipt = smartParkingBoy.park(car);
 
         assertEquals("2", receipt.getParkingLotName());
