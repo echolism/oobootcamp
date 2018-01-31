@@ -37,7 +37,8 @@ public class ParkingManagerTest {
     public void testGivenParkingManagerWithEmptyParkingLotAndCarEmployParkingBoyQWhenAskQToParkCarThenQCanParCar() {
         ParkingManager parkingManager = new ParkingManager();
         parkingManager.manage(new ParkingLot("1", 1));
-        parkingManager.employ(new ParkingBoy("Q"));
+        ParkingPersonFactory parkingBoyFactory = new ParkingBoyFactory();
+        parkingManager.employ(parkingBoyFactory.train("Q"));
         Car car = new Car("A");
 
         Report report = parkingManager.parkByParkingBoy("Q", car);
@@ -58,7 +59,8 @@ public class ParkingManagerTest {
 
         ParkingManager parkingManager = new ParkingManager();
         parkingManager.manage(new ParkingLot("1", 1));
-        parkingManager.employ(new ParkingBoy("Q"));
+        ParkingPersonFactory parkingBoyFactory = new ParkingBoyFactory();
+        parkingManager.employ(parkingBoyFactory.train("Q"));
         Car car = new Car("A");
 
         parkingManager.parkByParkingBoy("E", car);
@@ -73,8 +75,9 @@ public class ParkingManagerTest {
     public void testGivenParkingManagerWithEmptyParkingLotAndCarEmployParkingBoyQWWhenAskQToParkCarThenQCanParCar() {
         ParkingManager parkingManager = new ParkingManager();
         parkingManager.manage(new ParkingLot("1", 1));
-        parkingManager.employ(new ParkingBoy("Q"));
-        parkingManager.employ(new ParkingBoy("W"));
+        ParkingPersonFactory parkingBoyFactory = new ParkingBoyFactory();
+        parkingManager.employ(parkingBoyFactory.train("Q"));
+        parkingManager.employ(parkingBoyFactory.train("W"));
         Car car = new Car("A");
 
         Report report = parkingManager.parkByParkingBoy("Q", car);
@@ -92,8 +95,9 @@ public class ParkingManagerTest {
     public void testGivenParkingManagerWithEmptyParkingLotAndCarEmployParkingBoyQWWhenAskWToParkCarThenWCanParkCar() {
         ParkingManager parkingManager = new ParkingManager();
         parkingManager.manage(new ParkingLot("1", 1));
-        parkingManager.employ(new ParkingBoy("Q"));
-        parkingManager.employ(new ParkingBoy("W"));
+        ParkingPersonFactory parkingBoyFactory = new ParkingBoyFactory();
+        parkingManager.employ(parkingBoyFactory.train("Q"));
+        parkingManager.employ(parkingBoyFactory.train("W"));
         Car car = new Car("A");
 
         Report report = parkingManager.parkByParkingBoy("W", car);
@@ -128,9 +132,10 @@ public class ParkingManagerTest {
     public void testGivenParkingManagerWithEmptyParkingLotAndCarEmployParkingBoyQWEWhenAskEToParkCarThenECanParkCar() {
         ParkingManager parkingManager = new ParkingManager();
         parkingManager.manage(new ParkingLot("1", 1));
-        parkingManager.employ(new ParkingBoy("Q"));
-        parkingManager.employ(new ParkingBoy("W"));
-        parkingManager.employ(new ParkingBoy("E"));
+        ParkingPersonFactory parkingBoyFactory = new ParkingBoyFactory();
+        parkingManager.employ(parkingBoyFactory.train("Q"));
+        parkingManager.employ(parkingBoyFactory.train("W"));
+        parkingManager.employ(parkingBoyFactory.train("E"));
         Car car = new Car("A");
 
         Report report = parkingManager.parkByParkingBoy("E", car);
