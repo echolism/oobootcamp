@@ -176,7 +176,7 @@ public class ParkingManagerTest {
         ParkingManager parkingManager = new ParkingManager();
         ParkingPersonFactory parkingBoyFactory = new ParkingBoyFactory();
         parkingManager.employ(parkingBoyFactory.train("Q"));
-        List<ParkingLot> parkingLots = Arrays.asList(new ParkingLot("1", 1), new ParkingLot("1", 2));
+        List<ParkingLot> parkingLots = Arrays.asList(new ParkingLot("1", 1), new ParkingLot("2", 2));
         parkingManager.delegate("Q", parkingLots);
         Car car = new Car("A");
 
@@ -207,6 +207,27 @@ public class ParkingManagerTest {
     }
 
     /**
+     * Given parking manager has 3 parking lots which available slots are 1, 20, 1 and a car and employs parking boy Q
+     * When parking manager ask parking boy Q to park a car
+     * Then parking boy Q will be able to park a car in 2nd parking lot and parking manager will be able to get the report
+     */
+    @Test
+    public void testGivenParkingManagerWith3ParkingLotWith2ndHasMoreAvailableSlotsAndCarEmploySmartParkingBoyQWhenAskQToParkCarThenQCanParkTo2ndParkingLot() {
+        ParkingManager parkingManager = new ParkingManager();
+        ParkingPersonFactory smartParkingBoyFactory = new SmartParkingBoyFactory();
+        parkingManager.employ(smartParkingBoyFactory.train("Q"));
+        List<ParkingLot> parkingLots = Arrays.asList(new ParkingLot("1", 1), new ParkingLot("2", 20), new ParkingLot("3", 1));
+        parkingManager.delegate("Q", parkingLots);
+        Car car = new Car("A");
+
+        Report report = parkingManager.parkByParkingBoy("Q", car);
+
+        assertEquals("A", report.getCarLicense());
+        assertEquals("2", report.getParkingLotName());
+        assertEquals("Q", report.getParkingPersonName());
+    }
+
+    /**
      * Given parking manager has 1 parking lot with a parked car
      * When parking manager picks a car from the parking lot
      * Then parking manager will be able to pick the car
@@ -224,14 +245,86 @@ public class ParkingManagerTest {
     }
 
     /**
-     * Given parking manager has 1 parking lot with a parked car managed by a parking boy Q
+     * Given parking manager has 1 parking lot with a parked car managed by parking boy Q
      * When parking manager picks a car according to the receipt
      * Then parking manager will be able to pick the car
      */
-    /*@Test
-    public void testGivenParkingManagerAndParkedCarAndEmployParkingByQWhenPickCarThenCarPickCar() {
+    @Test
+    public void testGivenParkingManagerAndParkedCarAndEmployParkingByQWhenPickCarThenCanPickCar() {
         ParkingManager parkingManager = new ParkingManager();
-        ParkingPersonFactory parkingPersonFactory = new ParkingPersonFactory();
-        parkingManager.employ(smartParkingBoy);
-    }*/
+        ParkingPersonFactory parkingBoyFactory = new ParkingBoyFactory();
+        parkingManager.employ(parkingBoyFactory.train("Q"));
+        parkingManager.delegate("Q", new ParkingLot("1", 1));
+        Car car = new Car("A");
+        Report report = parkingManager.parkByParkingBoy("Q", car);
+
+        Car pickedCar = parkingManager.pick(report.getReceipt());
+
+        assertSame(car, pickedCar);
+    }
+
+    /**
+     * Given parking manager manages parking lot 1 and has parking lot 2 managed by parking boy Q and a car parked in parking lot 1
+     * When parking manager picks a car according to the receipt
+     * Then parking manager will be able to pick the car
+     */
+    @Test
+    public void testGivenParkingManagerManageParkingLot1AndCarAndParkingBoyManageParkingLot2WhenPickCarThenCanPickCar() {
+        ParkingManager parkingManager = new ParkingManager();
+        parkingManager.manage(new ParkingLot("1", 1));
+        ParkingPersonFactory parkingBoyFactory = new ParkingBoyFactory();
+        parkingManager.employ(parkingBoyFactory.train("Q"));
+        parkingManager.delegate("Q", new ParkingLot("2", 1));
+        Car car = new Car("A");
+        Receipt receipt = parkingManager.park(car);
+
+        Car pickedCar = parkingManager.pick(receipt);
+
+        assertSame(car, pickedCar);
+    }
+
+    /**
+     * Given parking manager has parking lot 1 managed by parking boy Q and parking lot 2 managed by parking boy W with a car parked in it
+     * When parking manager picks a car according to the receipt
+     * Then parking manager will be able to pick the car
+     */
+    @Test
+    public void testGivenParkingManagerEmployParkingBoyQWithParkingLot1AndParkingBoyWWithParkingLot2AndCarInParkingLot2WhenPickCarThenCanPickCar() {
+        ParkingManager parkingManager = new ParkingManager();
+        ParkingPersonFactory parkingBoyFactory = new ParkingBoyFactory();
+        parkingManager.employ(parkingBoyFactory.train("Q"));
+        parkingManager.employ(parkingBoyFactory.train("W"));
+        parkingManager.delegate("Q", new ParkingLot("1", 1));
+        parkingManager.delegate("W", new ParkingLot("2", 1));
+        Car car = new Car("A");
+        Report report = parkingManager.parkByParkingBoy("W", car);
+
+        Car pickedCar = parkingManager.pick(report.getReceipt());
+
+        assertSame(car, pickedCar);
+    }
+
+    /**
+     * Given parking manager manages parking lot 1 has parking lot 2 managed by parking boy Q and parking lot 3 managed by parking boy W with a car A parked in it
+     * When parking manager picks a car B according to the receipt
+     * Then parking manager will be failed to pick the car
+     */
+    @Test
+    public void testGivenParkingManagerManageParkingLot1EmployParkingBoyQWithParkingLot2AndParkingBoyWWithParkingLot3AndCarAInParkingLot3WhenPickCarBThenFailedPickCar() {
+        thrown.expect(ParkingLotException.class);
+        thrown.expectMessage(CAR_NOT_FOUND.toString());
+
+        ParkingManager parkingManager = new ParkingManager();
+        parkingManager.manage(new ParkingLot("1", 1));
+        ParkingPersonFactory parkingBoyFactory = new ParkingBoyFactory();
+        parkingManager.employ(parkingBoyFactory.train("Q"));
+        parkingManager.employ(parkingBoyFactory.train("W"));
+        parkingManager.delegate("Q", new ParkingLot("2", 1));
+        parkingManager.delegate("W", new ParkingLot("3", 1));
+        Car car = new Car("A");
+        parkingManager.parkByParkingBoy("W", car);
+
+        Receipt fakeReceipt = new Receipt("3", "B");
+        parkingManager.pick(fakeReceipt);
+    }
 }

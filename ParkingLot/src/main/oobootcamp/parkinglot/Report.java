@@ -20,4 +20,8 @@ public class Report {
     public String getParkingLotName() {
         return receipt.getParkingLotName();
     }
+
+    public Receipt getReceipt() {
+        return receipt;
+    }
 }

@@ -107,7 +107,7 @@ public class SmartParkingBoyTest {
      * Then smart parking boy will be able to park a car to 1st parking lot
      */
     @Test
-    public void testGivenSmartParkingBoyWith2SlotsParkingLotWith1stHasMoreAvailableSlotsAndCarWhenParkCarThenCanParkTo1stParkingLot() throws ParkingLotException {
+    public void testGivenSmartParkingBoyWith2SParkingLotWith1stHasMoreAvailableSlotsAndCarWhenParkCarThenCanParkTo1stParkingLot() throws ParkingLotException {
         ParkingPerson smartParkingBoy = new SmartParkingBoy();
         smartParkingBoy.manage(new ParkingLot("1", 200));
         smartParkingBoy.manage(new ParkingLot("2", 1));
@@ -123,7 +123,7 @@ public class SmartParkingBoyTest {
      * Then smart parking boy will be able to park a car to 2nd parking lot
      */
     @Test
-    public void testGivenSmartParkingBoyWith2SlotsParkingLotWith2ndHasMoreAvailableSlotsAndCarWhenParkCarThenCanParkTo1stParkingLot() throws ParkingLotException {
+    public void testGivenSmartParkingBoyWith2ParkingLotWith2ndHasMoreAvailableSlotsAndCarWhenParkCarThenCanParkTo1stParkingLot() throws ParkingLotException {
         ParkingPerson smartParkingBoy = new SmartParkingBoy();
         smartParkingBoy.manage(new ParkingLot("1", 1));
         smartParkingBoy.manage(new ParkingLot("2", 200));
@@ -140,7 +140,7 @@ public class SmartParkingBoyTest {
      * Then smart parking boy will be able to park a car to 2nd parking lot
      */
     @Test
-    public void testGivenSmartParkingBoyWith3SlotsParkingLotWith2ndHasMoreAvailableSlotsAndCarWhenParkCarThenCanParkTo1stParkingLot() throws ParkingLotException {
+    public void testGivenSmartParkingBoyWith3ParkingLotWith2ndHasMoreAvailableSlotsAndCarWhenParkCarThenCanParkTo1stParkingLot() throws ParkingLotException {
         ParkingPerson smartParkingBoy = new SmartParkingBoy();
         smartParkingBoy.manage(new ParkingLot("1", 1));
         smartParkingBoy.manage(new ParkingLot("2", 20));
@@ -158,7 +158,7 @@ public class SmartParkingBoyTest {
      * Then smart parking boy will be able to park a car to 3rd parking lot
      */
     @Test
-    public void testGivenSmartParkingBoyWith3SlotsParkingLotWith3rdHasMoreAvailableSlotsAndCarWhenParkCarThenCanParkTo1stParkingLot() throws ParkingLotException {
+    public void testGivenSmartParkingBoyWith3ParkingLotWith3rdHasMoreAvailableSlotsAndCarWhenParkCarThenCanParkTo1stParkingLot() throws ParkingLotException {
         ParkingPerson smartParkingBoy = new SmartParkingBoy();
         smartParkingBoy.manage(new ParkingLot("1", 1));
         smartParkingBoy.manage(new ParkingLot("2", 1));

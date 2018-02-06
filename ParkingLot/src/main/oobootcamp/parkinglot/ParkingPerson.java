@@ -51,4 +51,12 @@ public abstract class ParkingPerson {
     public String getName() {
         return name;
     }
+
+    public boolean canFindCarByReceipt(Receipt receipt) {
+        Optional<ParkingLot> parkingLot = findParkingLotByName(receipt.getParkingLotName());
+        if (!parkingLot.isPresent()) {
+            return false;
+        }
+        return parkingLot.get().findByLicense(receipt.getCarLicense()).isPresent();
+    }
 }

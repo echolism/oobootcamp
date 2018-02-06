@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import static oobootcamp.parkinglot.exception.ParkingLotException.Message.CAR_NOT_FOUND;
 import static oobootcamp.parkinglot.exception.ParkingLotException.Message.PARKING_BOY_NOT_FOUND;
 
 public class ParkingManager extends ParkingPerson {
@@ -50,5 +51,22 @@ public class ParkingManager extends ParkingPerson {
     private void delegate(Optional<ParkingPerson> parkingBoy, List<ParkingLot> parkingLots) {
         parkingBoy.orElseThrow(() -> new ParkingLotException(PARKING_BOY_NOT_FOUND.toString()))
                 .manage(parkingLots);
+    }
+
+    @Override
+    public Car pick(Receipt receipt) {
+        if (this.canFindCarByReceipt(receipt)) {
+            return super.pick(receipt);
+        }
+        return pickByParkingBoy(receipt);
+    }
+
+    private Car pickByParkingBoy(Receipt receipt) {
+        for (ParkingPerson parkingPerson : parkingBoys) {
+            if (parkingPerson.canFindCarByReceipt(receipt)) {
+                return parkingPerson.pick(receipt);
+            }
+        }
+        throw new ParkingLotException(CAR_NOT_FOUND.toString());
     }
 }
