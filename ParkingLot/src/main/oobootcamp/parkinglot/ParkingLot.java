@@ -11,7 +11,7 @@ import static oobootcamp.parkinglot.exception.ParkingLotException.Message.*;
 public class ParkingLot {
     private final String name;
     private final int capacity;
-    private List<Car> parkedCars;
+    private final List<Car> parkedCars;
 
     public ParkingLot(String name, int capacity) {
         this.name = name;

@@ -13,7 +13,7 @@ public abstract class ParkingPerson {
     protected final String name;
     protected ParkingStrategy parkingStrategy;
 
-    public ParkingPerson(String name) {
+    protected ParkingPerson(String name) {
         this.parkingLots = new ArrayList<>();
         this.name = name;
     }

@@ -11,13 +11,13 @@ import static oobootcamp.parkinglot.exception.ParkingLotException.Message.CAR_NO
 import static oobootcamp.parkinglot.exception.ParkingLotException.Message.PARKING_BOY_NOT_FOUND;
 
 public class ParkingManager extends ParkingPerson {
-    private List<ParkingPerson> parkingBoys;
+    private final List<ParkingPerson> parkingBoys;
 
     public ParkingManager() {
         this("");
     }
 
-    public ParkingManager(String name) {
+    protected ParkingManager(String name) {
         super(name);
         this.parkingStrategy = new NormalParkingStrategy();
         this.parkingBoys = new ArrayList<>();
