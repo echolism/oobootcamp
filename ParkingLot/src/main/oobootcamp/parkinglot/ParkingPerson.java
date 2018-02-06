@@ -9,7 +9,6 @@ import java.util.Optional;
 import static oobootcamp.parkinglot.exception.ParkingLotException.Message.*;
 
 public abstract class ParkingPerson {
-    // TODO: Factory method
     private final List<ParkingLot> parkingLots;
     private final String name;
     protected ParkingStrategy parkingStrategy;
@@ -23,23 +22,17 @@ public abstract class ParkingPerson {
         this.name = name;
     }
 
-    protected List<ParkingLot> getParkingLots() {
-        return parkingLots;
-    }
-
     public void manage(ParkingLot parkingLot) {
         parkingLots.add(parkingLot);
     }
 
-    public void manage(List<ParkingLot> parkingLots) {
-        this.parkingLots.addAll(parkingLots);
-    }
-
     public Receipt park(Car car) throws ParkingLotException {
+        if (parkingLots.isEmpty()) {
+            throw new ParkingLotException(PARKING_BOY_HAS_NO_PARKING_LOT.toString());
+        }
         Receipt receipt = parkingStrategy.findTargetParkingLot(parkingLots)
                 .orElseThrow(() -> new ParkingLotException(NO_AVAILABLE_SPACE.toString()))
                 .park(car);
-        receipt.setParkingPersonName(name);
         return receipt;
     }
 

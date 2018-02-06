@@ -13,14 +13,13 @@ public class ParkingManager extends ParkingPerson {
 
     public ParkingManager() {
         this.parkingStrategy = new NormalParkingStrategy();
-        parkingBoys = new ArrayList<>();
+        this.parkingBoys = new ArrayList<>();
     }
 
     public Report parkByParkingBoy(String parkingPersonName, Car car) {
         Optional<ParkingPerson> targetParkingBoy = findParkingPersonByName(parkingPersonName);
-        targetParkingBoy.orElseThrow(() -> new ParkingLotException(PARKING_BOY_NOT_FOUND.toString()))
-                .manage(getParkingLots());
-        Receipt receipt = targetParkingBoy.get().park(car);
+        Receipt receipt = targetParkingBoy.orElseThrow(() -> new ParkingLotException(PARKING_BOY_NOT_FOUND.toString()))
+                .park(car);
         return new Report(targetParkingBoy.get().getName(), receipt);
     }
 
@@ -31,6 +30,11 @@ public class ParkingManager extends ParkingPerson {
     }
 
     public void employ(ParkingPerson parkingBoy) {
+        parkingBoys.add(parkingBoy);
+    }
+
+    public void employ(ParkingPerson parkingBoy, ParkingLot parkingLot) {
+        parkingBoy.manage(parkingLot);
         parkingBoys.add(parkingBoy);
     }
 }
