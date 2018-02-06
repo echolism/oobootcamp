@@ -62,11 +62,10 @@ public class ParkingManager extends ParkingPerson {
     }
 
     private Car pickByParkingBoy(Receipt receipt) {
-        for (ParkingPerson parkingPerson : parkingBoys) {
-            if (parkingPerson.canFindCarByReceipt(receipt)) {
-                return parkingPerson.pick(receipt);
-            }
-        }
-        throw new ParkingLotException(CAR_NOT_FOUND.toString());
+        return this.parkingBoys.stream()
+                .filter(parkingPerson -> parkingPerson.canFindCarByReceipt(receipt))
+                .findFirst()
+                .orElseThrow(() -> new ParkingLotException(CAR_NOT_FOUND.toString()))
+                .pick(receipt);
     }
 }
