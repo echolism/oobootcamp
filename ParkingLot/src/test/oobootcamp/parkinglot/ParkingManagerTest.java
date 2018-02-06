@@ -5,8 +5,12 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static oobootcamp.parkinglot.exception.ParkingLotException.Message.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
 public class ParkingManagerTest {
     @Rule
@@ -29,15 +33,16 @@ public class ParkingManagerTest {
     }
 
     /**
-     * Given parking manager has an empty parking lot and a car and manage a parking boy Q
+     * Given parking manager has an empty parking lot and a car and employs parking boy Q
      * When parking manager ask parking boy Q to park a car
      * Then parking boy Q will be able to park a car and parking manager will be able get the report
      */
     @Test
-    public void testGivenParkingManagerWithEmptyParkingLotAndCarEmployParkingBoyQWhenAskQToParkCarThenQCanParCar() {
+    public void testGivenParkingManagerWithEmptyParkingLotAndCarEmployParkingBoyQWhenAskQToParkCarThenQCanParkCar() {
         ParkingManager parkingManager = new ParkingManager();
         ParkingPersonFactory parkingBoyFactory = new ParkingBoyFactory();
-        parkingManager.employ(parkingBoyFactory.train("Q"), new ParkingLot("1", 1));
+        parkingManager.employ(parkingBoyFactory.train("Q"));
+        parkingManager.delegate("Q", new ParkingLot("1", 1));
         Car car = new Car("A");
 
         Report report = parkingManager.parkByParkingBoy("Q", car);
@@ -47,7 +52,7 @@ public class ParkingManagerTest {
     }
 
     /**
-     * Given parking manager has a car and manage a parking boy Q
+     * Given parking manager has a car and employs parking boy Q
      * When parking manager ask parking boy Q to park a car
      * Then parking boy Q will not be able to park a car
      */
@@ -65,7 +70,7 @@ public class ParkingManagerTest {
     }
 
     /**
-     * Given parking manager has an empty parking lot and a car and manage a parking boy Q
+     * Given parking manager has an empty parking lot and a car and employs parking boy Q
      * When parking manager ask parking boy E to park a car
      * Then parking manager will be failed to find E to park the car
      */
@@ -84,16 +89,17 @@ public class ParkingManagerTest {
     }
 
     /**
-     * Given parking manager has an empty parking lot and a car and employ parking boy Q and W
+     * Given parking manager has an empty parking lot and a car and employs parking boy Q and W
      * When parking manager ask parking boy Q to park a car
      * Then parking boy Q will be able to park a car and parking manager will be able get the report
      */
     @Test
-    public void testGivenParkingManagerWithEmptyParkingLotAndCarEmployParkingBoyQWWhenAskQToParkCarThenQCanParCar() {
+    public void testGivenParkingManagerWithEmptyParkingLotAndCarEmployParkingBoyQWWhenAskQToParkCarThenQCanParkCar() {
         ParkingManager parkingManager = new ParkingManager();
         ParkingPersonFactory parkingBoyFactory = new ParkingBoyFactory();
-        parkingManager.employ(parkingBoyFactory.train("Q"), new ParkingLot("1", 1));
+        parkingManager.employ(parkingBoyFactory.train("Q"));
         parkingManager.employ(parkingBoyFactory.train("W"));
+        parkingManager.delegate("Q", new ParkingLot("1", 1));
         Car car = new Car("A");
 
         Report report = parkingManager.parkByParkingBoy("Q", car);
@@ -103,7 +109,7 @@ public class ParkingManagerTest {
     }
 
     /**
-     * Given parking manager has an empty parking lot and a car and employ parking boy Q and W
+     * Given parking manager has an empty parking lot and a car and employs parking boy Q and W
      * When parking manager ask parking boy W to park a car
      * Then parking boy W will be able to park a car and parking manager will be able get the report
      */
@@ -112,7 +118,8 @@ public class ParkingManagerTest {
         ParkingManager parkingManager = new ParkingManager();
         ParkingPersonFactory parkingBoyFactory = new ParkingBoyFactory();
         parkingManager.employ(parkingBoyFactory.train("Q"));
-        parkingManager.employ(parkingBoyFactory.train("W"), new ParkingLot("1", 1));
+        parkingManager.employ(parkingBoyFactory.train("W"));
+        parkingManager.delegate("W", new ParkingLot("1", 1));
         Car car = new Car("A");
 
         Report report = parkingManager.parkByParkingBoy("W", car);
@@ -139,7 +146,7 @@ public class ParkingManagerTest {
     }
 
     /**
-     * Given parking manager has an empty parking lot and a car and employ parking boy Q, W and E
+     * Given parking manager has an empty parking lot and a car and employs parking boy Q, W and E
      * When parking manager ask parking boy E to park a car
      * Then parking boy E can park a car and parking manager will be able get the report
      */
@@ -149,7 +156,8 @@ public class ParkingManagerTest {
         ParkingPersonFactory parkingBoyFactory = new ParkingBoyFactory();
         parkingManager.employ(parkingBoyFactory.train("Q"));
         parkingManager.employ(parkingBoyFactory.train("W"));
-        parkingManager.employ(parkingBoyFactory.train("E"), new ParkingLot("1", 1));
+        parkingManager.employ(parkingBoyFactory.train("E"));
+        parkingManager.delegate("E", new ParkingLot("1", 1));
         Car car = new Car("A");
 
         Report report = parkingManager.parkByParkingBoy("E", car);
@@ -159,15 +167,37 @@ public class ParkingManagerTest {
     }
 
     /**
-     * Given parking manager has an empty parking lot and a car and manage a smart parking boy Q
+     * Given parking manager has two empty parking lot and a car and employs parking boy Q
+     * When parking manager ask parking boy Q to park a car
+     * Then parking boy Q will be able to park a car in 1st parking lot and parking manager will be able to get the report
+     */
+    @Test
+    public void testGivenParkingManagerWith2EmptyParkingLotAndCarEmployParkingBoyQWhenAskQToParkCarThenQCanParkTo1stParkingLot() {
+        ParkingManager parkingManager = new ParkingManager();
+        ParkingPersonFactory parkingBoyFactory = new ParkingBoyFactory();
+        parkingManager.employ(parkingBoyFactory.train("Q"));
+        List<ParkingLot> parkingLots = Arrays.asList(new ParkingLot("1", 1), new ParkingLot("1", 2));
+        parkingManager.delegate("Q", parkingLots);
+        Car car = new Car("A");
+
+        Report report = parkingManager.parkByParkingBoy("Q", car);
+
+        assertEquals("A", report.getCarLicense());
+        assertEquals("1", report.getParkingLotName());
+        assertEquals("Q", report.getParkingPersonName());
+    }
+    
+    /**
+     * Given parking manager has an empty parking lot and a car and employs smart parking boy Q
      * When parking manager ask smart parking boy Q to park a car
      * Then smart parking boy Q will be able to park a car and parking manager will be able get the report
      */
     @Test
-    public void testGivenParkingManagerWithEmptyParkingLotAndCarEmploySmartParkingBoyQWhenAskQToParkCarThenQCanParCar() {
+    public void testGivenParkingManagerWithEmptyParkingLotAndCarEmploySmartParkingBoyQWhenAskQToParkCarThenQCanParkCar() {
         ParkingManager parkingManager = new ParkingManager();
         ParkingPersonFactory smartParkingBoyFactory = new SmartParkingBoyFactory();
-        parkingManager.employ(smartParkingBoyFactory.train("Q"), new ParkingLot("1", 1));
+        parkingManager.employ(smartParkingBoyFactory.train("Q"));
+        parkingManager.delegate("Q", new ParkingLot("1", 1));
         Car car = new Car("A");
 
         Report report = parkingManager.parkByParkingBoy("Q", car);
@@ -177,6 +207,31 @@ public class ParkingManagerTest {
     }
 
     /**
-     * Given parking manager has two empty parking lot and a car
+     * Given parking manager has 1 parking lot with a parked car
+     * When parking manager picks a car from the parking lot
+     * Then parking manager will be able to pick the car
      */
+    @Test
+    public void testGivenParkingManagerAndParkedCarWhenPickCarThenCanPickCar() throws ParkingLotException {
+        ParkingManager parkingManager = new ParkingManager();
+        parkingManager.manage(new ParkingLot("1", 1));
+        Car car = new Car("A");
+        Receipt receipt = parkingManager.park(car);
+
+        Car pickedCar = parkingManager.pick(receipt);
+
+        assertSame(car, pickedCar);
+    }
+
+    /**
+     * Given parking manager has 1 parking lot with a parked car managed by a parking boy Q
+     * When parking manager picks a car according to the receipt
+     * Then parking manager will be able to pick the car
+     */
+    /*@Test
+    public void testGivenParkingManagerAndParkedCarAndEmployParkingByQWhenPickCarThenCarPickCar() {
+        ParkingManager parkingManager = new ParkingManager();
+        ParkingPersonFactory parkingPersonFactory = new ParkingPersonFactory();
+        parkingManager.employ(smartParkingBoy);
+    }*/
 }

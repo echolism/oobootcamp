@@ -3,6 +3,7 @@ package oobootcamp.parkinglot;
 import oobootcamp.parkinglot.exception.ParkingLotException;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,6 +13,11 @@ public class ParkingManager extends ParkingPerson {
     private List<ParkingPerson> parkingBoys;
 
     public ParkingManager() {
+        this("");
+    }
+
+    public ParkingManager(String name) {
+        super(name);
         this.parkingStrategy = new NormalParkingStrategy();
         this.parkingBoys = new ArrayList<>();
     }
@@ -33,8 +39,16 @@ public class ParkingManager extends ParkingPerson {
         parkingBoys.add(parkingBoy);
     }
 
-    public void employ(ParkingPerson parkingBoy, ParkingLot parkingLot) {
-        parkingBoy.manage(parkingLot);
-        parkingBoys.add(parkingBoy);
+    public void delegate(String parkingPersonName, ParkingLot parkingLot) {
+        delegate(parkingPersonName, Arrays.asList(parkingLot));
+    }
+
+    public void delegate(String parkingPersonName, List<ParkingLot> parkingLots) {
+        delegate(findParkingPersonByName(parkingPersonName), parkingLots);
+    }
+
+    private void delegate(Optional<ParkingPerson> parkingBoy, List<ParkingLot> parkingLots) {
+        parkingBoy.orElseThrow(() -> new ParkingLotException(PARKING_BOY_NOT_FOUND.toString()))
+                .manage(parkingLots);
     }
 }

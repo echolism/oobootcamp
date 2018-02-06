@@ -10,12 +10,8 @@ import static oobootcamp.parkinglot.exception.ParkingLotException.Message.*;
 
 public abstract class ParkingPerson {
     private final List<ParkingLot> parkingLots;
-    private final String name;
+    protected final String name;
     protected ParkingStrategy parkingStrategy;
-
-    public ParkingPerson() {
-        this("");
-    }
 
     public ParkingPerson(String name) {
         this.parkingLots = new ArrayList<>();
@@ -23,7 +19,11 @@ public abstract class ParkingPerson {
     }
 
     public void manage(ParkingLot parkingLot) {
-        parkingLots.add(parkingLot);
+        this.parkingLots.add(parkingLot);
+    }
+
+    public void manage(List<ParkingLot> parkingLots) {
+        this.parkingLots.addAll(parkingLots);
     }
 
     public Receipt park(Car car) throws ParkingLotException {

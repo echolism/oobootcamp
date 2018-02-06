@@ -16,5 +16,4 @@ public class Receipt {
     public String getParkingLotName() {
         return parkingLotName;
     }
-
 }

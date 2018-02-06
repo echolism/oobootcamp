@@ -16,4 +16,8 @@ public class Report {
     public String getParkingPersonName() {
         return parkingPersonName;
     }
+
+    public String getParkingLotName() {
+        return receipt.getParkingLotName();
+    }
 }
