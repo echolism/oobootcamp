@@ -9,7 +9,7 @@ import java.util.Optional;
 import static oobootcamp.parkinglot.exception.ParkingLotException.Message.*;
 
 public abstract class ParkingPerson {
-    private final List<ParkingLot> parkingLots;
+    protected final List<ParkingLot> parkingLots;
     protected final String name;
     protected ParkingStrategy parkingStrategy;
 

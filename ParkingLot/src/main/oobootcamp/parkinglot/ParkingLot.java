@@ -54,4 +54,8 @@ public class ParkingLot {
     public String getName() {
         return name;
     }
+
+    public ParkingReport getParkingReport() {
+        return new ParkingReport("P", parkedCars.size(), capacity);
+    }
 }

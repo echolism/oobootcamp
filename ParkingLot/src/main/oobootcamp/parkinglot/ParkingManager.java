@@ -68,4 +68,10 @@ public class ParkingManager extends ParkingPerson {
                 .orElseThrow(() -> new ParkingLotException(CAR_NOT_FOUND.toString()))
                 .pick(receipt);
     }
+
+    public ParkingReport getParkingReport() {
+        ParkingReport report = new ParkingReport("M");
+        parkingLots.get(0).getParkingReport();
+        return report;
+    }
 }
